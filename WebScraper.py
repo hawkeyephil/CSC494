@@ -1,57 +1,70 @@
+#Import Statements
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
+from pathlib import Path
 
-import numpy as np
+#Relative filepath to .csv file with URLs to FED Statements/Dates 
+path = Path(__file__).parent / "CleanedPolicyStatementURLs.csv" 
+#Pandas Dataframe that contains all of the URLs and dates 
+dataframe = pd.read_csv(path, sep = ',') 
 
-# Assuming your CSV file is named 'grades.csv'
-arr = np.loadtxt('C:\\Users\\Philip Caldarella\\Desktop\\CSC494\\PolicyStatementUrls.csv', delimiter=',', dtype=str)
+#Web Scraper Loop 
+for index, row in dataframe.iterrows(): 
+    #URL to request webpage 
+    url = row[0] 
+    #Debugging 
+    print('Scraping: ' + url)
 
-# Now 'arr' contains the data from the CSV file
-print("The array is:")
-print(arr)
+    #Date of FED statement 
+    numericDate = row[1]
+    date = str(numericDate)
+    year = date[0:4] 
+    month = date[4:6]
+    day = date[6:8]
+    date = year + '-' + month + '-' + day 
+    #Debugging 
+    print('FED Statement Release:' + date) 
 
-
-# Fetch the FOMC statement page 
-for page in arr:
-    url = page 
-    year = page[64:68]
-    month = page[68:70]
-    day = page[70:72] 
-    date = year + '-' + month + '-' + day
-    print(date)
-
+    #Request webpage and create BeautifulSoup object to parse html 
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser") 
-    specific_p_tags = soup.find_all('p', class_=['article__time'])#, 'releaseTime'])
 
-        # Find the specific <div> with the class "col-xs-12 col-sm-8 col-md-8"
-    target_div = soup.find('div', class_='col-xs-12 col-sm-8 col-md-8') 
+    #Pre 2006 webpages 
+    if(numericDate < 20060000): 
+        #Parses and stores all text with <p> tag 
+        paragraphs = soup.find_all('p') 
+        data = ''
+        for p in paragraphs: 
+            data = data + '\n' + p.text 
+    #Post 2005 webpages 
+    else: 
+        #Collects publish date 
+        specific_p_tags = soup.find_all('p', class_=['article__time'])
 
-        # Extract all <p> tags within the target <div>
-    p_tags = target_div.find_all('p')
+        #Locates the specific <div> with the class="col-xs-12 col-sm-8 col-md-8"
+        target_div = soup.find('div', class_='col-xs-12 col-sm-8 col-md-8') 
 
-        # Extract all <p> tags
-        #paragraphs = soup.find_all("p")
+        #Collects all <p> tags within the target <div>
+        p_tags = target_div.find_all('p') 
 
-        # Print the text content of each <p> tag
-        #for p in paragraphs:
-        #    print(p.text)
+        #Extracts publish date 
+        time = ''
+        for p in specific_p_tags: 
+            time = p.text
 
-    time = ''
-    for p in specific_p_tags: 
-        #print(p.text) 
-        time = p.text
+        #Appends publish date and then extracts/appends paragraphs from the statements 
+        data = time 
+        for p in p_tags: 
+            data = data + '\n' + p.text 
 
-    data = time 
-    for p in p_tags: 
-        #print(p.text) 
-        data = data + '\n' + p.text
-
-    filename = 'C:\\Users\\Philip Caldarella\\Desktop\\CSC494\\Policy Statements\\' + date + '.txt'
-    #print(data)
+    #Unique filename for each statement saved as a .txt file 
+    filename = 'FEDStatements/' + date + '.txt' 
+    #Relative path to FEDStatements folder to store each statment within the project 
+    path = Path(__file__).parent / filename 
+    #Writes the contents of the statement to a .txt file and throws an error message if an exception occurs 
     try:
-        with open(filename, 'w', encoding='UTF-8') as file: 
-            #print('HI')
+        with open(path, 'w', encoding='UTF-8') as file: 
             file.write(data)
     except FileNotFoundError:
         print("Error") 
