@@ -13,8 +13,23 @@
     <p>Hello World!</p> 
 
     <form action = "/process_text" method = "POST"> 
-        <input type = "text" name = "user_text"> 
+        <input type = "text" id = "user_input" name = "user_text"> 
         <input type = "submit" value = "Submit">
-    </form>
+    </form> 
+
+    <script> 
+    //Restricts user input into textbox to specified number of words 
+        const textbox = document.getElementById("user_input") 
+        //Maximum word count 
+        const word_Count = 5;
+
+        textbox.addEventListener("input", () => {
+            const words = textbox.value.trim().split(/\s+/); 
+            //Limits user input to less than the specified word count 
+            if(words.length > word_Count) { 
+                textbox.value = words.slice(0, word_Count).join(' ');
+            } 
+        }) 
+    </script> 
 </body> 
 </html> 
