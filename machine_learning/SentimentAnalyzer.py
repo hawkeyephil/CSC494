@@ -32,4 +32,4 @@ def sentiment_analyzer(text):
     #print('Loughran and McDonald Score: ' + lm_polarity) 
 
     #Returns polarity calculated using the Loughran and McDonald Dictionary 
-    return float(lm_polarity) 
+    return float(h_polarity) 
