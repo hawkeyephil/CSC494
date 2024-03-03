@@ -1,6 +1,6 @@
 #Import Statements 
 import pysentiment2 as ps 
-import PreProcessor as pp
+import machine_learning.PreProcessor as pp
 
 #Sentiment Dictionaries 
 #Harvard IV-4 (general purpose)
@@ -32,4 +32,4 @@ def sentiment_analyzer(text):
     #print('Loughran and McDonald Score: ' + lm_polarity) 
 
     #Returns polarity calculated using the Loughran and McDonald Dictionary 
-    return float(lm_polarity) 
+    return float(h_polarity) 
