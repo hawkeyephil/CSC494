@@ -5,31 +5,269 @@
 <head>
     <meta charset = "UTF-8">
     <meta name = "viewport" content = "width=device-width, initial-scale=1"> 
-    <title>My Simple Webpage</title>
+    <title>Sentiment Analysis</title> 
+
+    <!--Sytlesheets/Bootstrap-->
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
     <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles.css') }}"> 
+    <!--Fonts-->
+    <link href = "https://fonts.googleapis.com/css?family=Montserrat" rel = "stylesheet" type = "text/css">
+    <link href = "https://fonts.googleapis.com/css?family=Lato" rel = "stylesheet" type = "text/css"> 
+    <!--jQuery Library-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+    <!--Modals/Carousels/Dropdowns--> 
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head> 
 
-<body>
-    <p>Hello World!</p> 
-
-    <form action = "/process_text" method = "POST"> 
-        <input type = "text" id = "user_input" name = "user_text"> 
-        <input type = "submit" value = "Submit">
-    </form> 
-
-    <script> 
-    //Restricts user input into textbox to specified number of words 
-        const textbox = document.getElementById("user_input") 
-        //Maximum word count 
-        const word_Count = 5;
-
-        textbox.addEventListener("input", () => {
-            const words = textbox.value.trim().split(/\s+/); 
-            //Limits user input to less than the specified word count 
-            if(words.length > word_Count) { 
-                textbox.value = words.slice(0, word_Count).join(' ');
-            } 
-        }) 
-    </script> 
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+    <!--Site Navigation Bar--> 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#home">SentAI</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#about">ABOUT</a></li> 
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#lexicon">Lexicon</a></li>
+                  <li><a href="#nbow">NBoW</a></li>
+                  <li><a href="#rnn">RNN</a></li> 
+                  <li><a href="#cnn">CNN</a></li> 
+                </ul>
+              </li>
+              <li><a href="#performance">PERFORMANCE</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#sandbox">Sandbox</a></li>
+                  <li><a href="#marketanalysis">Market Analysis</a></li>
+                  <li><a href="#moviereviews">Movie Reviews</a></li> 
+                </ul>
+              </li>
+              <li><a href="#contact">CONTACT</a></li> 
+            </ul>
+          </div>
+        </div>
+      </nav> 
+      
+      <!--Welcome Banner-->
+      <div class="jumbotron text-center">
+        <h1>Welcome to SentAI</h1> 
+        <p>An Artificial Intelligence Sentiment Analysis Project</p> 
+      </div> 
+      
+      <!--About Section-->
+      <div id="about" class="container-fluid">
+        <div class="row">
+          <div class="col-sm-8">
+            <h2>About this Project</h2><br>
+            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <br><button class="btn btn-default btn-lg">Reach Out!</button>
+          </div>
+          <div class="col-sm-4">
+            <span class="glyphicon glyphicon-signal logo"></span>
+          </div>
+        </div>
+      </div>
+      
+      <!--Purpose Section-->
+      <div class="container-fluid bg-grey">
+        <div class="row">
+          <div class="col-sm-4">
+            <span class="glyphicon glyphicon-globe logo slideanim"></span>
+          </div>
+          <div class="col-sm-8">
+            <h2>Purpose</h2><br>
+            <h4><strong>GOAL:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
+            <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!--Models Section-->
+      <div id="models" class="container-fluid text-center">
+        <h2>Models</h2>
+        <h4>Approaches Explored</h4>
+        <br>
+        <div class="row slideanim">
+          <div class="col-sm-3">
+            <span class="glyphicon glyphicon-picture logo-small"></span>
+            <h4>Lexicon</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+          </div>
+          <div class="col-sm-3">
+            <span class="glyphicon glyphicon-picture logo-small"></span>
+            <h4>NBoW</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+          </div>
+          <div class="col-sm-3">
+            <span class="glyphicon glyphicon-picture logo-small"></span>
+            <h4>RNN</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+          </div>
+          <div class="row slideanim">
+            <div class="col-sm-3">
+              <span class="glyphicon glyphicon-picture logo-small"></span>
+              <h4>CNN</h4>
+              <p>Lorem ipsum dolor sit amet..</p>
+            </div>
+        </div>
+      </div> 
+      
+      <!--Performance Section-->
+      <div id="performance" class="container-fluid text-center bg-grey">
+        <h2>Performance</h2><br>
+        <h4>Key Accuracy and Performance Findings</h4>
+        <div class="row text-center slideanim">
+          <div class="col-sm-4">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Paris" width="400" height="300">
+              <p><strong>Accuracy</strong></p>
+              <p>Accuracy matrics</p>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="New York" width="400" height="300">
+              <p><strong>Speed</strong></p>
+              <p>Efficiency metrics</p>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="San Francisco" width="400" height="300">
+              <p><strong>Capability</strong></p>
+              <p>Capability metrics</p>
+            </div>
+          </div>
+        </div><br> 
+        
+        <h2>More Applications</h2>
+        <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+          <!--Indicators-->
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li> 
+            <li data-target="#myCarousel" data-slide-to="3"></li> 
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+          </ol>
+      
+          <!--Wrapper for slides-->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <h4>Financial market analysis and stock prediction<br><span>Sector: Finance</span></h4>
+            </div>
+            <div class="item">
+              <h4>Social media management and brand reputation monitoring<br><span>Sector: Marketing</span></h4>
+            </div>
+            <div class="item">
+              <h4>Market research and competitor analysis<br><span>Sector: Research & Development</span></h4>
+            </div> 
+            <div class="item">
+              <h4>Rapid mental health screening<br><span>Sector: Healthcare</span></h4>
+            </div> 
+            <div class="item">
+              <h4>Political Analysis and public opinion monitoring<br><span>Sector: Government</span></h4> 
+            </div>
+          </div>
+      
+          <!--Left and right controls-->
+          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+      
+      <!--Contact Section-->
+      <div id="contact" class="container-fluid bg-grey">
+        <h2 class="text-center">CONTACT</h2>
+        <div class="row">
+          <div class="col-sm-5">
+            <p>Please reach out with insights and inquires</p>
+            <p><span class="glyphicon glyphicon-map-marker"></span> Hamden, Connecticut</p>
+            <p><span class="glyphicon glyphicon-phone"></span> +00 0000000000</p>
+            <p><span class="glyphicon glyphicon-envelope"></span> pjcaldarella@quinnipiac.edu</p>
+          </div>
+          <div class="col-sm-7 slideanim">
+            <div class="row">
+              <div class="col-sm-6 form-group">
+                <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+              </div>
+              <div class="col-sm-6 form-group">
+                <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+              </div>
+            </div>
+            <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+            <div class="row">
+              <div class="col-sm-12 form-group">
+                <button class="btn btn-default pull-right" type="submit">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer class="container-fluid text-center">
+        <a href="#myPage" title="To Top">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <p>Software is under the GNU General Public License: <a href="https://www.gnu.org/licenses/gpl-3.0.html" title="Visit gnu">www.gnu.org</a></p>
+      </footer>
+      
+      <script>
+      $(document).ready(function(){
+        //Add smooth scrolling to all links in navbar + footer link
+        $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+          //Make sure this.hash has a value before overriding default behavior
+          if (this.hash !== "") {
+            //Prevent default anchor click behavior
+            event.preventDefault();
+      
+            //Store hash
+            var hash = this.hash;
+      
+            //Using jQuery's animate() method to add smooth page scroll
+            //The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+            $('html, body').animate({
+              scrollTop: $(hash).offset().top
+            }, 900, function(){
+         
+              //Add hash (#) to URL when done scrolling (default click behavior)
+              window.location.hash = hash;
+            });
+          } 
+        });
+        
+        $(window).scroll(function() {
+          $(".slideanim").each(function(){
+            var pos = $(this).offset().top;
+      
+            var winTop = $(window).scrollTop();
+              if (pos < winTop + 600) {
+                $(this).addClass("slide");
+              }
+          });
+        });
+      })
+      </script>
+ 
 </body> 
 </html> 
