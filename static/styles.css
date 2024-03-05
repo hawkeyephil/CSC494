@@ -22,7 +22,7 @@ h4 {
 }  
 
 .jumbotron {
-    background-color: #f4511e;
+    background-color: #8CC152;
     color: #fff;
     padding: 100px 25px;
     font-family: Montserrat, sans-serif;
@@ -37,12 +37,12 @@ h4 {
 }   
 
 .logo-small {
-    color: #f4511e;
+    color: #8CC152;
     font-size: 50px;
 } 
 
 .logo {
-    color: #f4511e;
+    color: #8CC152;
     font-size: 200px;
 }
 
@@ -60,16 +60,29 @@ h4 {
 
 .carousel-control.right, .carousel-control.left {
     background-image: none;
-    color: #f4511e;
+    color: #8CC152;
+} 
+
+.carousel-control.right:hover, .carousel-control.left:hover {
+    color: #A0D468 !important;
 }
 
 .carousel-indicators li {
-    border-color: #f4511e;
+    border-color: #8CC152;
+}
+
+.carousel-indicators li:hover {
+    border-color: #A0D468;
 }
 
 .carousel-indicators li.active {
-    background-color: #f4511e;
+    background-color: #8CC152;
 }
+
+.carousel-indicators li.active:hover {
+    background-color: #A0D468
+} 
+
 .item h4 {
     font-size: 19px;
     line-height: 1.375em;
@@ -83,7 +96,7 @@ h4 {
 }
 
 .panel {
-    border: 1px solid #f4511e; 
+    border: 1px solid #8CC152; 
     border-radius:0 !important;
     transition: box-shadow 0.5s;
 }
@@ -93,14 +106,14 @@ h4 {
 }
 
 .panel-footer .btn:hover {
-    border: 1px solid #f4511e;
+    border: 1px solid #8CC152;
     background-color: #fff !important;
-    color: #f4511e;
+    color: #8CC152;
 }  
 
 .panel-heading {
     color: #fff !important;
-    background-color: #f4511e !important;
+    background-color: #8CC152 !important;
     padding: 25px;
     border-bottom: 1px solid transparent;
     border-top-left-radius: 0px;
@@ -124,13 +137,13 @@ h4 {
 
 .panel-footer .btn {
     margin: 15px 0;
-    background-color: #f4511e;
+    background-color: #8CC152;
     color: #fff;
 }
 
 .navbar {
     margin-bottom: 0;
-    background-color: #f4511e;
+    background-color: #8CC152;
     z-index: 9999;
     border: 0;
     font-size: 12px !important;
@@ -140,13 +153,17 @@ h4 {
     font-family: Montserrat, sans-serif;
 }
 
-.navbar li a, .navbar .navbar-brand {
-    color: #fff !important;
-}
+.navbar li a, .navbar .navbar-brand { 
+    color: #fff !important; 
+} 
+
+.navbar-brand:hover {
+    background-color: #A0D468 !important;
+} 
 
 .navbar-nav li a:hover, .navbar-nav li.active a {
-    color: #f4511e !important;
-    background-color: #fff !important;
+    color: #fff !important;
+    background-color: #A0D468 !important;
 }
 
 .navbar-default .navbar-toggle {
@@ -157,8 +174,12 @@ h4 {
 footer .glyphicon {
     font-size: 20px;
     margin-bottom: 20px;
-    color: #f4511e;
-}
+    color: #8CC152;
+} 
+
+footer .glyphicon:hover {
+    color: #A0D468
+} 
 
 .slideanim {
     visibility:hidden;
@@ -175,7 +196,7 @@ footer .glyphicon {
 /*Dropdown menu styling*/
 .open .dropdown-toggle {
     color: #fff;
-    background-color: #555 !important;
+    background-color: #A0D468 !important;
 }
 
 .dropdown-menu li a {
@@ -183,8 +204,8 @@ footer .glyphicon {
 }
 
 .dropdown-menu li a:hover {
-    background-color: #f4511e !important;
-}
+    background-color: #A0D468 !important;
+} 
 
 @keyframes slide {
 0% {
