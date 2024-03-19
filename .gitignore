@@ -2,4 +2,6 @@
 nbow.pt 
 NBoW.py 
 __pycache__ 
-.env
+.env 
+test.py 
+test2.py

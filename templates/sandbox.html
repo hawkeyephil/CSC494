@@ -1,4 +1,4 @@
-<!--Landing Page-->
+<!--Sandbox Page-->
 <!DOCTYPE html> 
 <html lang = "en">
 
@@ -16,7 +16,7 @@
     <!--jQuery Library-->
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
     <!--Modals/Carousels/Dropdowns--> 
-    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
 </head> 
 
 <body id="home" data-spy="scroll" data-target=".navbar" data-offset="60"> 
@@ -58,7 +58,7 @@
         </div>
     </nav> 
       
-      <!--Banner-->
+      <!--Sentiment Sandbox Banner-->
       <div class="jumbotron text-center">
         <h1>Sentiment Sandbox</h1> 
         <p>A place to tinker with each model!</p> 
@@ -66,7 +66,7 @@
 
       <div id="Sentiment Analyzer" class="container-fluid">
         <div class="row">
-            <!-- Left Section -->
+            <!--Sentiment Analyzer Section-->
             <div class="col-md-6 border">
                 <h2>Sentiment Analyzer</h2> 
                 <h4>Select a sentiment analysis model and enter a short text (< 500 words) below. Simply select the 'Analyze Sentiment!' button to generate results!</h4>
@@ -78,26 +78,26 @@
                         <option value="rnn">Recurrent Neural Network Model</option>
                         <option value="cnn">Convolutional Neural Network Model</option>
                     </select> 
-                </div>
+                </div> 
 
-                <br><div class="mb-3">
-                    <textarea class="form-control" id="textInput" rows="5" placeholder="Type your text here... (Up to 500 words)"></textarea>
-                </div>
-                <br><button class="btn btn-lg btn-block custom-button">Analyze Sentiment!</button>
+                <br><form action="/analyze_sentiment" method = "POST">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="user_input" name = "user_text" rows="5" placeholder="Type your text here... (Capped at 500 words)"></textarea>
+                    </div>
+                    <br><button class="btn btn-lg btn-block custom-button" type="submit">Analyze Sentiment!</button>
+                </form>
             </div>
 
-            <!-- Right Section -->
+            <!--Sentiment Analysis Section-->
             <div class="col-md-6 border">
                 <h2>Sentiment Analysis</h2>
                 <div id="Sentiment Analysis">
                     <!-- Labels for Sentiment Score and Accuracy -->
                     
-                    <h2><span class="label label-default">Sentiment Score: </span></h2>
+                    <h2><span class="label label-default">Sentiment Polarity: {{polarity}}</span></h2>
+                    <h2><span class="label label-default">Sentiment Subjectivity: {{subjectivity}}</span></h2>
 
-                    <div class="sentiment-accuracy">
-                        <label>Sentiment Accuracy: </label>
-                        <span id="sentimentAccuracy">[Accuracy]</span>
-                    </div> 
+                    <!--Going to keep one of these-->
                     <div id="sentiment-container">
                         <div id="sentiment-bar" style="height: 20px; width: 0; background-color: red;"></div>
                     </div>
@@ -113,6 +113,10 @@
         </div>
     </div>
 
+    <!--js--> 
+    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+    
+    <!--Might go but if not it should be moved to js scripts file-->
     <script>
         function updateSentimentBar(score) {
             var bar = document.getElementById('sentiment-bar');
@@ -121,4 +125,4 @@
             bar.style.backgroundColor = score >= 0 ? 'green' : 'red';
         }
     </script>
-</body>
+</body> 

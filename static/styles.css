@@ -247,14 +247,6 @@ footer .glyphicon:hover {
     background-color: #ddd;
 } 
 
-.full-width-label {
-    display: block; 
-    width: 100%; 
-    background-color: #8CC152; 
-    color: #fff; 
-    padding: 10px 10px; 
-} 
-
 .label-default {
     display: block;
     width: 100%;

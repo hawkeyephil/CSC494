@@ -25,11 +25,15 @@ def sentiment_analyzer(text):
 
 
     #Extracts polarity scores 
-    h_polarity = str(h_score.get('Polarity'))
+    h_polarity = str(h_score.get('Polarity')) 
+    h_polarity = float(h_polarity)
     lm_polarity = str(lm_score.get('Polarity')) 
 
+    h_subjectivity = str(h_score.get('Subjectivity'))
+    h_subjectivity = float(h_subjectivity)
     #print('Harvard IV-4 Score: ' + h_polarity) 
     #print('Loughran and McDonald Score: ' + lm_polarity) 
 
+    sentiment_Scores = {'polarity': h_polarity, 'subjectivity': h_subjectivity}
     #Returns polarity calculated using the Loughran and McDonald Dictionary 
-    return float(h_polarity) 
+    return sentiment_Scores 
