@@ -24,9 +24,9 @@ h4 {
 .jumbotron {
     background-color: #8CC152;
     color: #fff;
-    padding: 100px 25px;
+    padding: 75px 25px;
     font-family: Montserrat, sans-serif;
-}
+} 
 
 .container-fluid {
     padding: 50px 50px; 
@@ -206,6 +206,61 @@ footer .glyphicon:hover {
 .dropdown-menu li a:hover {
     background-color: #A0D468 !important;
 } 
+
+.custom-button {
+    background-color: #8CC152;
+    color: #fff;
+} 
+
+.custom-button:hover {
+    background-color: #A0D468; 
+    color: #fff;
+} 
+
+.custom-dropdown {
+    background-color: #8CC152; 
+    color: #fff;
+} 
+
+.custom-dropdown:hover {
+    background-color: #A0D468; 
+    color: #fff;
+}
+
+.custom-dropdown option {
+    background-color: #fff; 
+    color: #000;
+} 
+
+.custom-dropdown option:hover {
+    background-color: #A0D468;
+    color: #fff;
+}
+
+.border {
+    border: 5px solid #8CC152; 
+    padding: 10px; /* Spacing inside the border */
+} 
+
+#sentiment-container {
+    width: 100%;
+    background-color: #ddd;
+} 
+
+.full-width-label {
+    display: block; 
+    width: 100%; 
+    background-color: #8CC152; 
+    color: #fff; 
+    padding: 10px 10px; 
+} 
+
+.label-default {
+    display: block;
+    width: 100%;
+    background-color: #8CC152; 
+    text-align: left;
+}
 
 @keyframes slide {
 0% {

@@ -1,34 +1,124 @@
-<!--Results Page-->
+<!--Landing Page-->
 <!DOCTYPE html> 
 <html lang = "en">
 
 <head>
-    <meta charset = "UTF-8"> 
-    <title>Results</title>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1"> 
+    <title>Model Sandbox</title> 
+
+    <!--Sytlesheets/Bootstrap-->
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
     <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles.css') }}"> 
+    <!--Fonts-->
+    <link href = "https://fonts.googleapis.com/css?family=Montserrat" rel = "stylesheet" type = "text/css">
+    <link href = "https://fonts.googleapis.com/css?family=Lato" rel = "stylesheet" type = "text/css"> 
+    <!--jQuery Library-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+    <!--Modals/Carousels/Dropdowns--> 
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head> 
 
-<body> 
-    <p>Hello World!</p> 
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+    <!--Site Navigation Bar--> 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}">SentAI</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('index') }}">HOME</a></li> 
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#lexicon">Lexicon</a></li>
+                  <li><a href="#nbow">NBoW</a></li>
+                  <li><a href="#rnn">RNN</a></li> 
+                  <li><a href="#cnn">CNN</a></li> 
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
+                  <li><a href="#marketanalysis">Market Analysis</a></li>
+                  <li><a href="#moviereviews">Movie Reviews</a></li> 
+                </ul>
+              </li> 
+            </ul>
+          </div>
+        </div>
+    </nav> 
+      
+      <!--Banner-->
+      <div class="jumbotron text-center">
+        <h1>Sentiment Sandbox</h1> 
+        <p>A place to tinker with each model!</p> 
+      </div> 
 
-    <form action = "/process_text" method = "POST"> 
-        <input type = "text" id = "user_input" name = "user_text"> 
-        <input type = "submit" value = "Submit">
-    </form>
+      <div id="Sentiment Analyzer" class="container-fluid">
+        <div class="row">
+            <!-- Left Section -->
+            <div class="col-md-6 border">
+                <h2>Sentiment Analyzer</h2> 
+                <h4>Select a sentiment analysis model and enter a short text (< 500 words) below. Simply select the 'Analyze Sentiment!' button to generate results!</h4>
+                <div class="mb-3">
+                    <label for="dropdownOptions" class="form-label">Model Select:</label>
+                    <select class="form-select form-control custom-dropdown" id="dropdownOptions">
+                        <option value="lexicon">Lexicon Based Approach</option>
+                        <option value="nbow">Neural Bag of Words Model</option>
+                        <option value="rnn">Recurrent Neural Network Model</option>
+                        <option value="cnn">Convolutional Neural Network Model</option>
+                    </select> 
+                </div>
 
-    <script> 
-    //Restricts user input into textbox to specified number of words 
-        const textbox = document.getElementById("user_input") 
-        //Maximum word count 
-        const word_Count = 5;
-    
-        textbox.addEventListener("input", () => {
-            const words = textbox.value.trim().split(/\s+/); 
-            //Limits user input to less than the specified word count 
-            if(words.length > word_Count) { 
-                textbox.value = words.slice(0, word_Count).join(' ');
-            } 
-        }) 
+                <br><div class="mb-3">
+                    <textarea class="form-control" id="textInput" rows="5" placeholder="Type your text here... (Up to 500 words)"></textarea>
+                </div>
+                <br><button class="btn btn-lg btn-block custom-button">Analyze Sentiment!</button>
+            </div>
+
+            <!-- Right Section -->
+            <div class="col-md-6 border">
+                <h2>Sentiment Analysis</h2>
+                <div id="Sentiment Analysis">
+                    <!-- Labels for Sentiment Score and Accuracy -->
+                    
+                    <h2><span class="label label-default">Sentiment Score: </span></h2>
+
+                    <div class="sentiment-accuracy">
+                        <label>Sentiment Accuracy: </label>
+                        <span id="sentimentAccuracy">[Accuracy]</span>
+                    </div> 
+                    <div id="sentiment-container">
+                        <div id="sentiment-bar" style="height: 20px; width: 0; background-color: red;"></div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" class="rounded" alt="Logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateSentimentBar(score) {
+            var bar = document.getElementById('sentiment-bar');
+            var container = document.getElementById('sentiment-container');
+            bar.style.width = ((score + 1) / 2 * 100) + '%'; // Convert score to a percentage
+            bar.style.backgroundColor = score >= 0 ? 'green' : 'red';
+        }
     </script>
-</body> 
-</html>
+</body>

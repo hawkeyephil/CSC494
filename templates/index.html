@@ -49,7 +49,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#sandbox">Sandbox</a></li>
+                  <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
                   <li><a href="#marketanalysis">Market Analysis</a></li>
                   <li><a href="#moviereviews">Movie Reviews</a></li> 
                 </ul>
@@ -73,7 +73,7 @@
             <h2>About this Project</h2><br>
             <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <br><button class="btn btn-default btn-lg">Reach Out!</button>
+            <br><button class="btn btn-default btn-lg custom-button" onclick="window.location.href='#contact'">Reach Out!</button>
           </div>
           <div class="col-sm-4">
             <span class="glyphicon glyphicon-signal logo"></span>
@@ -133,21 +133,21 @@
         <div class="row text-center slideanim">
           <div class="col-sm-4">
             <div class="thumbnail">
-              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Paris" width="400" height="300">
+              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
               <p><strong>Accuracy</strong></p>
               <p>Accuracy matrics</p>
             </div>
           </div>
           <div class="col-sm-4">
             <div class="thumbnail">
-              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="New York" width="400" height="300">
+              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
               <p><strong>Speed</strong></p>
               <p>Efficiency metrics</p>
             </div>
           </div>
           <div class="col-sm-4">
             <div class="thumbnail">
-              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="San Francisco" width="400" height="300">
+              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
               <p><strong>Capability</strong></p>
               <p>Capability metrics</p>
             </div>

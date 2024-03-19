@@ -15,6 +15,10 @@ app.secret_key = os.getenv('SECRET_KEY')
 def index():
     return render_template('index.html') 
 
+@app.route('/sandbox') 
+def sandbox(): 
+    return render_template('sandbox.html')
+
 @app.route('/process_text', methods=['POST']) 
 def process_text(): 
     #User text entered into form 

@@ -1,33 +1,104 @@
-import pandas as pd
+import re
+import tweepy
+from tweepy import OAuthHandler 
+import os 
+
+class TwitterClient(object):
+		
+    #Generic Twitter Class for sentiment analysis.
+	def __init__(self):
+		#Class constructor or initialization method.
+		# keys and tokens from the Twitter Dev Console
+		consumer_key = os.getenv('TWITTER_API_KEY')
+		consumer_secret = os.getenv('TWITTER_API_KEY_SECRET')
+		access_token = os.getenv('TWITTER_ACCESS_TOKEN')
+		access_token_secret = os.getenv('TWITTER_ACCESS_TOKEN_SECRET')
+
+		# attempt authentication
+		try:
+			# create OAuthHandler object
+			self.auth = OAuthHandler(consumer_key, consumer_secret) 
+			# set access token and secret
+			self.auth.set_access_token(access_token, access_token_secret)
+			# create tweepy API object to fetch tweets
+			self.api = tweepy.API(self.auth)
+		except:
+			print("Error: Authentication Failed")
 
 
-# Language
-language = "en"
+	def clean_tweet(self, tweet):
+		'''
+		#Utility function to clean tweet text by removing links, special characters
+		#Using simple regex statements.
+		'''
+		return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
-#scraper = sntwitter.TwitterSearchScraper(query + " lang:" + language) 
+	def get_tweets(self, query, count = 10):
+		'''
+		#Main function to fetch tweets and parse them.
+		'''
+		# empty list to store parsed tweets
+		tweets = []
 
+		try:
+			# call twitter api to fetch tweets
+			fetched_tweets = self.api.search(q = query, count = count)
 
-tweets = []
-tweet_count = 10  
+			# parsing tweets one by one
+			for tweet in fetched_tweets:
+				# empty dictionary to store required params of a tweet
+				parsed_tweet = {}
 
+				# saving text of tweet
+				parsed_tweet['text'] = tweet.text
+				# saving sentiment of tweet
+				#parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
 
-import snscrape.modules.twitter as sntwitter
-import pandas
+				# appending parsed tweet to tweets list
+				if tweet.retweet_count > 0:
+					# if tweet has retweets, ensure that it is appended only once
+					if parsed_tweet not in tweets:
+						tweets.append(parsed_tweet)
+				else:
+					tweets.append(parsed_tweet)
 
-# Creating list to append tweet data to
-tweets_list2 = []
+			# return parsed tweets
+			return tweets
 
-# Using TwitterSearchScraper to scrape data and append tweets to list
-for i,tweet in enumerate(sntwitter.TwitterSearchScraper('COVID Vaccine since:2022-01-01 until:2022-05-31').get_items()):
-    if i>5:
-        break
-    tweets_list2.append([tweet.date, tweet.id, tweet.content, tweet.user.username])
-    
-# Creating a dataframe from the tweets list above
-tweets_df2 = pd.DataFrame(tweets_list2, columns=['Datetime', 'Tweet Id', 'Text', 'Username']) 
+		except Exception as e:
+			# print error (if any)
+			print("Error : " + str(e))
 
-#Filepath and filenames 
-test_File = '~/Downloads/test_File.csv'
+def main():
+	# creating object of TwitterClient Class
+	api = TwitterClient()
+	# calling function to get tweets
+	tweets = api.get_tweets(query = 'Donald Trump', count = 2) 
+	for tweet in tweets[:2]:
+		print(tweet['text'])
 
-tweets_df2.to_csv(test_File, index=False)
+	# picking positive tweets from tweets
+	#ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
+	# percentage of positive tweets
+	#print("Positive tweets percentage: {} %".format(100*len(ptweets)/len(tweets)))
+	# picking negative tweets from tweets
+	#ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
+	# percentage of negative tweets
+	#print("Negative tweets percentage: {} %".format(100*len(ntweets)/len(tweets)))
+	# percentage of neutral tweets
+	#print("Neutral tweets percentage: {} % \".format(100*(len(tweets) -(len( ntweets )+len( ptweets)))/len(tweets)))
+
+	# printing first 5 positive tweets
+	#print("\n\nPositive tweets:")
+	#for tweet in ptweets[:10]:
+		#print(tweet['text'])
+
+	# printing first 5 negative tweets
+	#print("\n\nNegative tweets:")
+	#for tweet in ntweets[:10]:
+		#print(tweet['text'])
+
+if __name__ == "__main__":
+	# calling main function
+	main()
 
