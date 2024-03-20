@@ -99,14 +99,14 @@
 
                     <!--Going to keep one of these-->
                     <div id="sentiment-container">
-                        <div id="sentiment-bar" style="height: 20px; width: 0; background-color: red;"></div>
+                        <div id="sentiment-bar1" style="height: 20px; width: 0; background-color: red;"></div>
                     </div>
                     <!--<div class="progress">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                     </div>-->
 
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        <div id="sentiment-bar" class="progress-bar bg-success" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>                    
 
                     <div class="text-center">
@@ -132,36 +132,41 @@
 
     <script>
       async function fetchSentiment() {
-    try {
-        const response = await fetch('/analyze_sentiment1', {
-            method: 'POST',
-            // Add any necessary headers (e.g., 'Content-Type')
-        });
-        const textResponse = await response.text();
-        console.log('Received response:', textResponse); // Check the response
-
-        // Parse the JSON if it's valid
-        let data;
         try {
-            data = JSON.parse(textResponse);
-        } catch (error) {
-            console.error('Error parsing JSON:', error);
-            return;
+            const response = await fetch('/polarity_score', {
+            method: 'POST',
+            });
+            const textResponse = await response.text();
+            console.log('Received response:', textResponse); // Check the response
+
+            // Update the progress bar width
+            //const progressBar1 = document.getElementById('sentiment-bar');
+            //progressBar.style.width = `${polarity}%`; 
+            //const polarity = textResponse; // Example value (you can replace this with your actual value)
+            // Received JSON response
+            const polarity = '{"polarity": 7.0}';
+
+            // Parse the JSON string
+            const parsedResponse = JSON.parse(polarity);
+
+            // Extract the polarity value (as a float)
+            const polarityValue = parseFloat(parsedResponse.polarity);
+
+            // Now you can use 'polarityValue' in your code
+            console.log(`Polarity value: ${polarityValue}`);
+            // Get the progress bar element
+            const progressBar = document.getElementById('sentiment-bar');
+
+            // Update the width based on the polarity
+            progressBar.style.width = `${polarityValue}%`;
+            progressBar.innerHTML = `${polarityValue}%`; // Update the text inside the progress bar 
+        } 
+        catch (error) {
+            console.error('Error fetching sentiment:', error);
         }
-
-        const polarity = data.polarity;
-
-        // Update the progress bar width
-        //const progressBar = document.getElementById('my-progress-bar');
-        //progressBar.style.width = `${polarity}%`;
-    } catch (error) {
-        console.error('Error fetching sentiment:', error);
-    }
-}
-
-// Call the function to fetch sentiment data
-fetchSentiment();
-
+      }
+      // Call the function to fetch sentiment data
+      fetchSentiment();
     </script>
 
 </body> 

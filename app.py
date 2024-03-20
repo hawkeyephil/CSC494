@@ -18,9 +18,9 @@ def index():
 #Route to the sandbox page 
 @app.route('/sandbox') 
 def sandbox(): 
+    #Establishes sentiment score variable for the session 
+    session.setdefault('polarity', 0.0)
     return render_template('sandbox.html')
-
-polarityglobe = 0.0
 
 #Sandbox sentiment route 
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])
@@ -37,38 +37,22 @@ def analyze_sentiment():
         polarity = sentiment_Scores['polarity']
         subjectivity = sentiment_Scores['subjectivity'] 
 
-        sentiment_bar(polarity)
+        #Store the polarity score in the session 
+        session['polarity'] = polarity 
     #Display the results to the page 
     return render_template('sandbox.html', polarity=polarity, subjectivity=subjectivity)
 
-def sentiment_bar(score): 
-    global polarityglobe 
-    polarityglobe = score 
-    print('test1')
-
-@app.route('/calculate_value')
-def calculate_value():
-    # Your computation logic here
-    result = 42  # Replace with your actual calculation 
-    print('test2')
-    return jsonify({'polarity': polarityglobe})
-
-@app.route('/analyze_sentiment1', methods=['POST'])
-def analyze1_sentiment():
-    if request.method == 'POST':
-        # Get the user input from the textarea (you can adapt this part)
-        #user_input = request.form['user_text']
-
-        # Analyze the sentiment using your existing logic
-        # Replace this with your actual sentiment analysis code
-        polarity = polarityglobe  # Replace with your calculated polarity
-        print('testttt')
-        # Return the polarity as JSON
+#Returns the polarity score to the frontend 
+@app.route('/polarity_score', methods=['POST'])
+def polarity_score():
+    if request.method == 'POST': 
+        print(session["polarity"])
+        polarity = session["polarity"]
+        #Return the polarity as JSON to frontend 
         return jsonify({'polarity': polarity})
 
 #Starts server and runs the app locally at port 5005
 app.run(host = 'localhost', port = 5005, debug = True) 
-polarityglobe = 0.0
 
 
 
