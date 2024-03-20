@@ -2,7 +2,7 @@
 //Restricts user input into textbox to specified number of words 
 const textarea = document.getElementById("user_input") 
 //Maximum word count 
-const word_Count = 5;
+const word_Count = 500;
 
 textarea.addEventListener("input", () => {
     const words = textarea.value.trim().split(/\s+/); 

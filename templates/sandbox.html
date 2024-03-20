@@ -19,7 +19,7 @@
     <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
 </head> 
 
-<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+<body onload="updateProgressBar()" id="home" data-spy="scroll" data-target=".navbar" data-offset="60"> 
     <!--Site Navigation Bar--> 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -101,9 +101,13 @@
                     <div id="sentiment-container">
                         <div id="sentiment-bar" style="height: 20px; width: 0; background-color: red;"></div>
                     </div>
-                    <div class="progress">
+                    <!--<div class="progress">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                    </div>
+                    </div>-->
+
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>                    
 
                     <div class="text-center">
                         <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" class="rounded" alt="Logo">
@@ -124,5 +128,40 @@
             bar.style.width = ((score + 1) / 2 * 100) + '%'; // Convert score to a percentage
             bar.style.backgroundColor = score >= 0 ? 'green' : 'red';
         }
+    </script> 
+
+    <script>
+      async function fetchSentiment() {
+    try {
+        const response = await fetch('/analyze_sentiment1', {
+            method: 'POST',
+            // Add any necessary headers (e.g., 'Content-Type')
+        });
+        const textResponse = await response.text();
+        console.log('Received response:', textResponse); // Check the response
+
+        // Parse the JSON if it's valid
+        let data;
+        try {
+            data = JSON.parse(textResponse);
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            return;
+        }
+
+        const polarity = data.polarity;
+
+        // Update the progress bar width
+        //const progressBar = document.getElementById('my-progress-bar');
+        //progressBar.style.width = `${polarity}%`;
+    } catch (error) {
+        console.error('Error fetching sentiment:', error);
+    }
+}
+
+// Call the function to fetch sentiment data
+fetchSentiment();
+
     </script>
+
 </body> 
