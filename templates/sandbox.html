@@ -94,16 +94,17 @@
                 <h2>Sentiment Analysis</h2>
                 <div id="Sentiment Analysis">
                     <!-- Labels for Sentiment Score and Accuracy -->
-                    
-                    <h2><span class="label label-default">Sentiment Polarity: {{polarity}}</span></h2>
-                    <h2><span class="label label-default">Sentiment Subjectivity: {{subjectivity}}</span></h2>
+                    <h2><span id="polarity-label" class="label label-default">Sentiment Polarity: {{polarity}}</span></h2>
+                    <h2><span id="subjectivity-label" class="label label-default">Sentiment Subjectivity: {{subjectivity}}</span></h2>
 
+                    <!--Sentiment Bar-->
                     <div class="progress">
                       <div 
                         id="sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                       </div>
                     </div>                    
 
+                    <!--Sentiment Logo-->
                     <div class="text-center"> 
                       <span id="sentiment-icon" class="fas fa-meh icon-neutral"></span> 
                     </div>

@@ -23,7 +23,7 @@ def sandbox():
     session['polarity'] = 0.0
     return render_template('sandbox.html')
 
-#Sandbox sentiment route 
+#Sandbox sentiment route (this can be phased out now with the js script in place)
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])
 def analyze_sentiment():
     if request.method == 'POST':
@@ -35,8 +35,8 @@ def analyze_sentiment():
         sentiment_Scores = sa.sentiment_analyzer(user_input) 
 
         #Extract the polarity and subjectivity scores 
-        polarity = sentiment_Scores['polarity']
-        subjectivity = sentiment_Scores['subjectivity'] 
+        polarity = format(sentiment_Scores['polarity'], '.2f')
+        subjectivity = format(sentiment_Scores['subjectivity'], '.2f')
 
         #Store the polarity score in the session 
         session['polarity'] = polarity 
