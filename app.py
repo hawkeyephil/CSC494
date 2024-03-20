@@ -12,14 +12,15 @@ app.secret_key = os.getenv('SECRET_KEY')
 #Decorator which specifies url endpoint 
 @app.route('/') 
 #Function that defines that the index page is displayed 
-def index():
+def index(): 
+    session.setdefault('polarity', 0.0)
     return render_template('index.html') 
 
 #Route to the sandbox page 
 @app.route('/sandbox') 
 def sandbox(): 
     #Establishes sentiment score variable for the session 
-    session.setdefault('polarity', 0.0)
+    session['polarity'] = 0.0
     return render_template('sandbox.html')
 
 #Sandbox sentiment route 
