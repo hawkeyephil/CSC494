@@ -30,23 +30,35 @@ async function getSentiment() {
         const polarityValue = parseFloat(parsedResponse.polarity).toFixed(2); 
         const roundedPolarityValue = Math.abs(polarityValue*100);
 
-        //Gets the progress bar element
+        //Gets the progress bar and icon elements
         const progressBar = document.getElementById('sentiment-bar'); 
+        const icon = document.getElementById('sentiment-icon');
+
         //Update the width based on the polarity
         progressBar.style.width = `${roundedPolarityValue}%`; 
         //Updates the background color and message based on polarity 
         if(polarityValue > 0.25) { 
           progressBar.style.backgroundColor = `rgb(140, 193, 82)`; 
-          progressBar.innerHTML = `Positive: ${polarityValue}`;
+          progressBar.innerHTML = `Positive: ${polarityValue}`; 
+          // Replace the "meh" icon with a different one (e.g., "smile")
+          icon.classList.remove('fa-meh'); 
+          icon.classList.remove('fa-frown-open')
+          icon.classList.add('fa-grin', 'icon-positive');
         } 
         else if(polarityValue < -0.25) {
           progressBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
-          progressBar.innerHTML = `Negative: ${polarityValue}`;
+          progressBar.innerHTML = `Negative: ${polarityValue}`; 
+          icon.classList.remove('fa-meh'); 
+          icon.classList.remove('fa-frown-open')
+          icon.classList.add('fa-grin', 'icon-negative');
         } 
         else {
           progressBar.style.backgroundColor = 'rgb(138, 138, 138)'; 
           progressBar.style.color = 'rgb(0,0,0)' 
-          progressBar.innerHTML = `Neutral: ${polarityValue}`;
+          progressBar.innerHTML = `Neutral: ${polarityValue}`; 
+          icon.classList.remove('fa-frown-open'); 
+          icon.classList.remove('fa-grin')
+          icon.classList.add('fa-meh', 'icon-neutral');
         }
 
     } 
@@ -55,4 +67,4 @@ async function getSentiment() {
     }
   }
   // Call the function to fetch sentiment data
-  getSentiment();
+  getSentiment(); 

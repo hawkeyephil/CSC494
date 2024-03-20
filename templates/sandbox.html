@@ -13,6 +13,7 @@
     <!--Fonts-->
     <link href = "https://fonts.googleapis.com/css?family=Montserrat" rel = "stylesheet" type = "text/css">
     <link href = "https://fonts.googleapis.com/css?family=Lato" rel = "stylesheet" type = "text/css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!--jQuery Library-->
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
     <!--Modals/Carousels/Dropdowns--> 
@@ -98,11 +99,13 @@
                     <h2><span class="label label-default">Sentiment Subjectivity: {{subjectivity}}</span></h2>
 
                     <div class="progress">
-                        <div id="sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                      <div 
+                        id="sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                      </div>
                     </div>                    
 
-                    <div class="text-center">
-                        <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" class="rounded" alt="Logo">
+                    <div class="text-center"> 
+                      <span id="sentiment-icon" class="fas fa-meh icon-neutral"></span> 
                     </div>
                 </div>
             </div>

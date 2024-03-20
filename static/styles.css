@@ -254,6 +254,21 @@ footer .glyphicon:hover {
     text-align: left;
 }
 
+.icon-neutral {
+    color: #8A8A8A; 
+    font-size: 20rem;
+} 
+
+.icon-positive {
+    color: #8CC152; 
+    font-size: 20rem;
+} 
+
+.icon-negative {
+    color: #c15252;
+    font-size: 20rem;
+}
+
 @keyframes slide {
 0% {
     opacity: 0;
