@@ -72,6 +72,13 @@
                 <h2>Sentiment Analyzer</h2> 
                 <h4>Select a sentiment analysis model and enter a short text (< 500 words) below. Simply select the 'Analyze Sentiment!' button to generate results!</h4>
                 <div class="mb-3">
+                  <label for="dropdownOptions" class="form-label">Application Select</label>
+                  <select class="form-select form-control custom-dropdown" id="dropdownOptions">
+                      <option value="lexicon">Financial Sentiment</option>
+                      <option value="nbow">General Sentiment</option>
+                  </select> 
+                </div>
+                <div class="mb-3">
                     <label for="dropdownOptions" class="form-label">Model Select:</label>
                     <select class="form-select form-control custom-dropdown" id="dropdownOptions">
                         <option value="lexicon">Lexicon Based Approach</option>
