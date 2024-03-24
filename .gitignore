@@ -1,7 +1,10 @@
 .vector_cache 
 nbow.pt 
-NBoW.py 
-__pycache__ 
-.env 
+embedding_Dim.pt 
+output_Dim.pt
+pad_Index.pt
+vocab.pt
 test.py 
 test2.py
+__pycache__ 
+.env

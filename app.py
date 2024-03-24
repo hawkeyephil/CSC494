@@ -2,7 +2,8 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session 
 from dotenv import load_dotenv 
 import os
-import machine_learning.SentimentAnalyzer as sa 
+import machine_learning.LexiconInference as dict 
+import machine_learning.NBoWInference as nbow
 
 #Gives each file a unique name 
 app = Flask(__name__) 
@@ -25,21 +26,60 @@ def sandbox():
 
 #Sandbox sentiment route (this can be phased out now with the js script in place)
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])
-def analyze_sentiment():
+def analyze_sentiment(): 
+    application = request.form.get('application_Select')
+    model = request.form.get('model_Select') 
     if request.method == 'POST':
-        # Get the user input from the textarea
+        #Fetches the user input from the textarea
         user_input = request.form['user_text'] 
-        print(user_input)
+        #print(user_input)
 
-        #Analyze the sentiment using the dictionary approach 
-        sentiment_Scores = sa.sentiment_analyzer(user_input) 
-
-        #Extract the polarity and subjectivity scores 
-        polarity = format(sentiment_Scores['polarity'], '.2f')
-        subjectivity = format(sentiment_Scores['subjectivity'], '.2f')
-
-        #Store the polarity score in the session 
-        session['polarity'] = polarity 
+        if application == 'Finance': 
+            if(model == 'lexicon'):     
+                #Analyze the sentiment using the dictionary approach 
+                sentiment_Scores = dict.sentiment_analyzer(user_input, 'LM') 
+                #Extract the polarity and subjectivity scores 
+                polarity = format(sentiment_Scores['polarity'], '.2f')
+                subjectivity = format(sentiment_Scores['subjectivity'], '.2f') 
+            elif(model == 'nbow'): 
+                print('Invalid Model Selected')
+                polarity = 0.00
+                subjectivity = 0.00
+            elif(model == 'cnn'): 
+                print('Invalid Model Selected')
+                polarity = 0.00
+                subjectivity = 0.00
+            else: 
+                print('Invalid Model Selected')
+                polarity = 0.00
+                subjectivity = 0.00
+        elif application == 'General': 
+            if(model == 'lexicon'):
+                #Analyze the sentiment using the dictionary approach 
+                sentiment_Scores = dict.sentiment_analyzer(user_input, 'Harvard-IV') 
+                #Extract the polarity and subjectivity scores 
+                polarity = format(sentiment_Scores['polarity'], '.2f')
+                subjectivity = format(sentiment_Scores['subjectivity'], '.2f') 
+            elif(model == 'nbow'): 
+                #Extract the sentiment using the NBoW model 
+                sentiment_Scores = nbow.predict_sentiment(user_input) 
+                print('NBoW Model Selected')
+                polarity = sentiment_Scores[0]
+                subjectivity = sentiment_Scores[1]
+            elif(model == 'cnn'): 
+                print('Invalid Model Selected')
+                polarity = 0.00
+                subjectivity = 0.00
+            else: 
+                print('Invalid Model Selected')
+                polarity = 0.00
+                subjectivity = 0.00
+        else:
+            print('Invalid Application Selected') 
+            polarity = 0.00
+            subjectivity = 0.00 
+    #Store the polarity score in the session 
+    session['polarity'] = polarity 
     #Display the results to the page 
     return render_template('sandbox.html', polarity=polarity, subjectivity=subjectivity)
 
@@ -47,7 +87,7 @@ def analyze_sentiment():
 @app.route('/polarity_score', methods=['POST'])
 def polarity_score():
     if request.method == 'POST': 
-        print(session["polarity"])
+        #print(session["polarity"])
         polarity = session["polarity"]
         #Return the polarity as JSON to frontend 
         return jsonify({'polarity': polarity})
