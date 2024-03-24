@@ -49,10 +49,10 @@ def predict_sentiment(text):
     prediction = nbow(tensor).squeeze(dim=0)
     probability = torch.softmax(prediction, dim=-1)
     predicted_class = prediction.argmax(dim=-1).item()
-    predicted_probability = probability[predicted_class].item()
-    return predicted_class, predicted_probability
+    predicted_probability = probability[predicted_class].item() 
+    return predicted_class, predicted_probability 
 
 #Debugging 
-text = 'That moviee was fantastic!'
-print(predict_sentiment(text))
+#text = 'That moviee was fantastic!'
+#print(predict_sentiment(text))
 
