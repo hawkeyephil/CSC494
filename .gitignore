@@ -1,7 +1,7 @@
 .vector_cache 
 nbow.pt 
-NBoW.py 
-__pycache__ 
-.env 
+NBoWTrainer.py 
 test.py 
 test2.py
+__pycache__ 
+.env 

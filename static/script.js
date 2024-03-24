@@ -52,8 +52,8 @@ async function getSentiment() {
           sentimentBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
           sentimentBar.innerHTML = `Negative: ${polarityValue}`; 
           sentimentIcon.classList.remove('fa-meh'); 
-          sentimentIcon.classList.remove('fa-frown-open')
-          sentimentIcon.classList.add('fa-grin', 'icon-negative'); 
+          sentimentIcon.classList.remove('fa-grin')
+          sentimentIcon.classList.add('fa-frown-open', 'icon-negative'); 
           polarityLabel.style.backgroundColor = 'rgb(193, 82, 82)'; 
           subjectivityLabel.style.backgroundColor = 'rgb(193, 82, 82)';
         } 

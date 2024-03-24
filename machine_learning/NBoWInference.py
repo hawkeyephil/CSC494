@@ -1,72 +1,58 @@
 import torch
-import torch.nn as nn 
-import torchtext 
-import datasets 
+import torch.nn as nn
+import torchtext  
 
-#Building the model 
+#Loads model parameters  
+vocab = torch.load("vocab.pt") 
+vocab_Size = len(vocab) 
+
+embedding_Dim = torch.load("embedding_Dim.pt")
+output_Dim = torch.load("output_Dim.pt")
+pad_Index = torch.load("pad_Index.pt")
+
+#Creates tokenizer instance 
+tokenizer = torchtext.data.utils.get_tokenizer("basic_english") 
+
+#Model declaration 
 class NBoW(nn.Module):
-    def __init__(self, vocab_size, embedding_dim, output_dim, pad_index):
+    def __init__(self, vocab_Size, embedding_Dim, output_Dim, pad_Index):
         super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=pad_index)
-        self.fc = nn.Linear(embedding_dim, output_dim)
+        self.embedding = nn.Embedding(vocab_Size, embedding_Dim, padding_idx = pad_Index)
+        self.fc = nn.Linear(embedding_Dim, output_Dim)
 
     def forward(self, ids):
-        # ids = [batch size, seq len]
         embedded = self.embedding(ids)
-        # embedded = [batch size, seq len, embedding dim]
         pooled = embedded.mean(dim=1)
-        # pooled = [batch size, embedding dim]
         prediction = self.fc(pooled)
-        # prediction = [batch size, output dim]
         return prediction
 
-def load_model():
-    model = NBoW(21635, 300, 2, 1)  # Initialize your model
-    model.load_state_dict(torch.load('nbow.pt'))  # Load the state dictionary
-    model.eval()  # Set to evaluation mode
+
+def load_NBoW(): 
+    #Initializes instance of the model 
+    model = NBoW(vocab_Size, embedding_Dim, output_Dim, pad_Index) 
+    #Loads the state dictionary from memory 
+    model.load_state_dict(torch.load('nbow.pt')) 
+    #Sets the model to evaluation mode 
+    model.eval()  
     return model
 
-# Load the model
-loaded_model = load_model()
-
-
-train_data, test_data = datasets.load_dataset("imdb", split=["train", "test"]) 
-
-#Max length of review 
-max_length = 256
-tokenizer = torchtext.data.utils.get_tokenizer("basic_english")
-
-def tokenize_example(example, tokenizer, max_length):
-    tokens = tokenizer(example["text"])[:max_length]
-    return {"tokens": tokens}
-
-#Adds token as a new key in each dictionary 
-train_data = train_data.map(tokenize_example, fn_kwargs={"tokenizer": tokenizer, "max_length": max_length})
-
-#Validation data creation 
-test_size = 0.25
-train_valid_data = train_data.train_test_split(test_size=test_size)
-train_data = train_valid_data["train"]
-valid_data = train_valid_data["test"]
-min_freq = 5
-special_tokens = ["<unk>", "<pad>"]
-
+#Creates an instance of the model 
+nbow = load_NBoW()
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-vocab = torchtext.vocab.build_vocab_from_iterator(train_data["tokens"], min_freq=min_freq, specials=special_tokens) 
 
-
-text = "This film is not great, it's terrible"
-#Predict sentiment 
-def predict_sentiment(text, model, tokenizer, vocab, device):
+#Function that returns sentiment prediction   
+def predict_sentiment(text):
     tokens = tokenizer(text)
     ids = vocab.lookup_indices(tokens)
     tensor = torch.LongTensor(ids).unsqueeze(dim=0).to(device)
-    prediction = model(tensor).squeeze(dim=0)
+    prediction = nbow(tensor).squeeze(dim=0)
     probability = torch.softmax(prediction, dim=-1)
     predicted_class = prediction.argmax(dim=-1).item()
     predicted_probability = probability[predicted_class].item()
-    return predicted_class, predicted_probability 
+    return predicted_class, predicted_probability
 
-print(predict_sentiment(text, loaded_model, tokenizer, vocab, device))
+#Debugging 
+text = 'That move was fantastic!'
+print(predict_sentiment(text))
 
