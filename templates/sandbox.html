@@ -42,7 +42,6 @@
                   <li><a href="#lexicon">Lexicon</a></li>
                   <li><a href="#nbow">NBoW</a></li>
                   <li><a href="#rnn">RNN</a></li> 
-                  <li><a href="#cnn">CNN</a></li> 
                 </ul>
               </li>
               <li class="dropdown">
@@ -71,25 +70,24 @@
             <div class="col-md-6 border">
                 <h2>Sentiment Analyzer</h2> 
                 <h4>Select a sentiment analysis model and enter a short text (< 500 words) below. Simply select the 'Analyze Sentiment!' button to generate results!</h4>
-                <div class="mb-3">
-                  <label for="dropdownOptions" class="form-label">Application Select:</label>
-                  <select class="form-select form-control custom-dropdown" id="dropdownOptions">
-                      <option value="lexicon">Financial Sentiment</option>
-                      <option value="nbow">General Sentiment</option>
-                  </select> 
-                </div>
-                <div class="mb-3">
-                    <label for="dropdownOptions" class="form-label">Model Select:</label>
-                    <select class="form-select form-control custom-dropdown" id="dropdownOptions">
-                        <option value="lexicon">Lexicon Based Approach</option>
-                        <option value="nbow">Neural Bag of Words Model</option>
-                        <option value="rnn">Recurrent Neural Network Model</option>
-                        <option value="cnn">Convolutional Neural Network Model</option>
-                    </select> 
-                </div> 
-
-                <br><form action="/analyze_sentiment" method = "POST">
+                                  
+                <form action="/analyze_sentiment" method = "POST">
                     <div class="mb-3">
+                      <label for="dropdownOptions" class="form-label">Application Select:</label>
+                      <select class="form-select form-control custom-dropdown" id="dropdownOptions" name="application_Select">
+                          <option value="Finance">Financial Sentiment</option>
+                          <option value="General">General Sentiment</option>
+                      </select> 
+                    </div> 
+                    <div class="mb-3">
+                      <label for="dropdownOptions" class="form-label">Model Select:</label>
+                      <select class="form-select form-control custom-dropdown" id="dropdownOptions" name="model_Select">
+                         <option value="lexicon">Lexicon Based Approach</option>
+                          <option value="nbow">Neural Bag of Words Model</option>
+                          <option value="cnn">Convolutional Neural Network Model</option>
+                      </select> 
+                    </div>
+                    <br><div class="mb-3">
                         <textarea class="form-control" id="user_input" name = "user_text" rows="5" placeholder="Type your text here... (Capped at 500 words)"></textarea>
                     </div>
                     <br><button class="btn btn-lg btn-block custom-button" type="submit">Analyze Sentiment!</button>

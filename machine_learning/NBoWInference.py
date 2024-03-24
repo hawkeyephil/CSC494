@@ -53,6 +53,6 @@ def predict_sentiment(text):
     return predicted_class, predicted_probability
 
 #Debugging 
-text = 'That move was fantastic!'
+text = 'That moviee was fantastic!'
 print(predict_sentiment(text))
 
