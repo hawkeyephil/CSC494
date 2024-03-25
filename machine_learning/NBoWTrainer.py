@@ -173,11 +173,11 @@ for epoch in range(n_epochs):
     metrics["valid_accs"].append(valid_Acc)
     if valid_Loss < best_Valid_Loss:
         best_valid_loss = valid_Loss
-        torch.save(model.state_dict(), "nbow.pt") 
-        torch.save(vocab, "vocab.pt") 
-        torch.save(embedding_Dim, "embedding_Dim.pt") 
-        torch.save(output_Dim, "output_Dim.pt") 
-        torch.save(pad_Index, "pad_Index.pt")
+        torch.save(model.state_dict(), "NBoW_cache/nbow.pt") 
+        torch.save(vocab, "NBoW_cache/vocab.pt") 
+        torch.save(embedding_Dim, "NBoW_cache/embedding_Dim.pt") 
+        torch.save(output_Dim, "NBoW_cache/output_Dim.pt") 
+        torch.save(pad_Index, "NBoW_cache/pad_Index.pt")
     print(f"epoch: {epoch}")
     print(f"train_loss: {train_Loss:.3f}, train_acc: {train_Acc:.3f}")
     print(f"valid_loss: {valid_Loss:.3f}, valid_acc: {valid_Acc:.3f}") 
@@ -205,7 +205,7 @@ ax.grid()
 plt.show() 
 
 #Loading saved model 
-model.load_state_dict(torch.load("nbow.pt"))
+model.load_state_dict(torch.load("NBoW_cache/nbow.pt"))
 
 #Calls evaluate function 
 test_loss, test_acc = evaluate(test_Data_Loader, model, criterion, device) 
