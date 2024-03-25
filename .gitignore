@@ -3,8 +3,12 @@ nbow.pt
 embedding_Dim.pt 
 output_Dim.pt
 pad_Index.pt
-vocab.pt
-test.py 
+vocab.pt 
+cnn.pt
+dropout_Rate.pt
+filter_Sizes.pt
+n_Filters.pt
+test.py
 test2.py
 __pycache__ 
 .env

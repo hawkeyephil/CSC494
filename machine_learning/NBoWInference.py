@@ -3,12 +3,12 @@ import torch.nn as nn
 import torchtext  
 
 #Loads model parameters  
-vocab = torch.load("vocab.pt") 
+vocab = torch.load("NBoW_cache/vocab.pt") 
 vocab_Size = len(vocab) 
 
-embedding_Dim = torch.load("embedding_Dim.pt")
-output_Dim = torch.load("output_Dim.pt")
-pad_Index = torch.load("pad_Index.pt")
+embedding_Dim = torch.load("NBoW_cache/embedding_Dim.pt")
+output_Dim = torch.load("NBoW_cache/output_Dim.pt")
+pad_Index = torch.load("NBoW_cache/pad_Index.pt")
 
 #Creates tokenizer instance 
 tokenizer = torchtext.data.utils.get_tokenizer("basic_english") 
@@ -31,7 +31,7 @@ def load_NBoW():
     #Initializes instance of the model 
     model = NBoW(vocab_Size, embedding_Dim, output_Dim, pad_Index) 
     #Loads the state dictionary from memory 
-    model.load_state_dict(torch.load('nbow.pt')) 
+    model.load_state_dict(torch.load('NBoW_cache/nbow.pt')) 
     #Sets the model to evaluation mode 
     model.eval()  
     return model
@@ -42,7 +42,7 @@ nbow = load_NBoW()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 #Function that returns sentiment prediction   
-def predict_sentiment(text):
+def predict_Sentiment(text):
     tokens = tokenizer(text)
     ids = vocab.lookup_indices(tokens)
     tensor = torch.LongTensor(ids).unsqueeze(dim=0).to(device)
