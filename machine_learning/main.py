@@ -1,7 +1,7 @@
 #Import Statements
 import pathlib as pl
 import os
-import SentimentAnalyzer as sa 
+import machine_learning.LexiconInference as sa 
 import matplotlib.pyplot as plt 
 import pandas as pd
 

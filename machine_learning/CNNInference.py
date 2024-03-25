@@ -61,18 +61,17 @@ cnn = load_CNN()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 #Function that predicts sentiment 
-def predict_Sentiment(text, model, tokenizer, vocab, device, min_Length, pad_Index):
+def predict_Sentiment(text):
     tokens = tokenizer(text)
     ids = vocab.lookup_indices(tokens)
     if len(ids) < min_Length:
         ids += [pad_Index] * (min_Length - len(ids))
     tensor = torch.LongTensor(ids).unsqueeze(dim=0).to(device)
-    prediction = model(tensor).squeeze(dim=0)
+    prediction = cnn(tensor).squeeze(dim=0)
     probability = torch.softmax(prediction, dim=-1)
     predicted_Class = prediction.argmax(dim=-1).item()
     predicted_Probability = probability[predicted_Class].item()
     return predicted_Class, predicted_Probability 
 
 #Debugging 
-text = "This film is fantastic!" 
-print(predict_Sentiment(text, cnn, tokenizer, vocab, device, min_Length, pad_Index))
+##print(predict_Sentiment(text))

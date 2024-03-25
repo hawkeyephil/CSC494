@@ -42,7 +42,7 @@ nbow = load_NBoW()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 #Function that returns sentiment prediction   
-def predict_sentiment(text):
+def predict_Sentiment(text):
     tokens = tokenizer(text)
     ids = vocab.lookup_indices(tokens)
     tensor = torch.LongTensor(ids).unsqueeze(dim=0).to(device)

@@ -3,7 +3,8 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, s
 from dotenv import load_dotenv 
 import os
 import machine_learning.LexiconInference as dict 
-import machine_learning.NBoWInference as nbow
+import machine_learning.NBoWInference as nbow 
+import machine_learning.CNNInference as cnn
 
 #Gives each file a unique name 
 app = Flask(__name__) 
@@ -28,52 +29,36 @@ def sandbox():
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])
 def analyze_sentiment(): 
     application = request.form.get('application_Select')
-    model = request.form.get('model_Select') 
+    #model = request.form.get('model_Select') 
     if request.method == 'POST':
         #Fetches the user input from the textarea
         user_input = request.form['user_text'] 
         #print(user_input)
 
-        if application == 'Finance': 
-            if(model == 'lexicon'):     
-                #Analyze the sentiment using the dictionary approach 
-                sentiment_Scores = dict.sentiment_analyzer(user_input, 'LM') 
-                #Extract the polarity and subjectivity scores 
-                polarity = format(sentiment_Scores['polarity'], '.2f')
-                subjectivity = format(sentiment_Scores['subjectivity'], '.2f') 
-            elif(model == 'nbow'): 
-                print('Invalid Model Selected')
-                polarity = 0.00
-                subjectivity = 0.00
-            elif(model == 'cnn'): 
-                print('Invalid Model Selected')
-                polarity = 0.00
-                subjectivity = 0.00
-            else: 
-                print('Invalid Model Selected')
-                polarity = 0.00
-                subjectivity = 0.00
+        if application == 'Finance':      
+            #Analyze the sentiment using the dictionary approach 
+            sentiment_Scores = dict.sentiment_analyzer(user_input, 'LM') 
+            #Extract the polarity and subjectivity scores 
+            polarity = format(sentiment_Scores['polarity'], '.2f')
+            subjectivity = format(sentiment_Scores['subjectivity'], '.2f') 
         elif application == 'General': 
-            if(model == 'lexicon'):
-                #Analyze the sentiment using the dictionary approach 
-                sentiment_Scores = dict.sentiment_analyzer(user_input, 'Harvard-IV') 
-                #Extract the polarity and subjectivity scores 
-                polarity = format(sentiment_Scores['polarity'], '.2f')
-                subjectivity = format(sentiment_Scores['subjectivity'], '.2f') 
-            elif(model == 'nbow'): 
-                #Extract the sentiment using the NBoW model 
-                sentiment_Scores = nbow.predict_sentiment(user_input) 
-                print('NBoW Model Selected')
-                polarity = sentiment_Scores[0]
-                subjectivity = sentiment_Scores[1]
-            elif(model == 'cnn'): 
-                print('Invalid Model Selected')
-                polarity = 0.00
-                subjectivity = 0.00
-            else: 
-                print('Invalid Model Selected')
-                polarity = 0.00
-                subjectivity = 0.00
+            #Analyze the sentiment using the dictionary approach 
+            sentiment_Scores = dict.sentiment_analyzer(user_input, 'Harvard-IV') 
+            #Extract the polarity and subjectivity scores 
+            polarity = format(sentiment_Scores['polarity'], '.2f')
+            subjectivity = format(sentiment_Scores['subjectivity'], '.2f') 
+            
+            #Extract the sentiment using the NBoW model 
+            sentiment_Scores = nbow.predict_Sentiment(user_input) 
+            print('NBoW Model Selected')
+            polarity = sentiment_Scores[0]
+            subjectivity = sentiment_Scores[1]
+            
+            #Extract the sentiment using the CNN model 
+            sentiment_Scores = cnn.predict_Sentiment(user_input)
+            print('CNN Model Selected')
+            polarity = sentiment_Scores[0]
+            subjectivity = 0.00
         else:
             print('Invalid Application Selected') 
             polarity = 0.00
