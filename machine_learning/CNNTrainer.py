@@ -1,28 +1,19 @@
-#Import statements 
-import collections 
-#Visualize results 
-import matplotlib.pyplot as plt 
-#Numerical processing 
-import numpy as np 
-#Tensor computations 
-import torch 
-#Neural networks 
-import torch.nn as nn 
-#Optimizers 
-import torch.optim as optim 
-#Text processing 
-import torchtext 
-#Progress measuring 
+import collections
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchtext
 import tqdm 
-#PreProcessor 
-import machine_learning.MLPreProcessor as pp
+import machine_learning.MLPreProcessor as pp 
 
-#Seed  
+#Seed 
 seed = 1234
 np.random.seed(seed)
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
-torch.backends.cudnn.deterministic = True  
+torch.backends.cudnn.deterministic = True 
 
 #Datasets 
 train_Data = pp.get_Train_Data() 
@@ -35,7 +26,12 @@ pad_Index = pp.get_Pad_Index()
 
 #Vocabulary 
 vocab = pp.get_Vocab() 
-vocab_Size = len(vocab)
+vocab_Size = len(vocab) 
+
+n_Filters = 100
+filter_Sizes = [3, 5, 7] 
+min_Length = max(filter_Sizes)
+dropout_Rate = 0.25
 
 #Function that creates a batch 
 def get_Collate(pad_Index):
@@ -48,7 +44,7 @@ def get_Collate(pad_Index):
         batch_label = torch.stack(batch_label)
         batch = {"ids": batch_ids, "label": batch_label}
         return batch
-    return collate 
+    return collate
 
 #Function that loads data  
 def get_Data_Loader(dataset, batch_Size, pad_Index, shuffle = False):
@@ -59,102 +55,113 @@ def get_Data_Loader(dataset, batch_Size, pad_Index, shuffle = False):
         collate_fn = collate,
         shuffle = shuffle,
     )
-    return data_Loader 
+    return data_Loader
 
-#Batch size --> Larger the better for parallel computation, less compute time, and faster training/evaluation 
 batch_Size = 512
+
 #Creates dataloader for each set  
 train_Data_Loader = get_Data_Loader(train_Data, batch_Size, pad_Index, shuffle=True)
 valid_Data_Loader = get_Data_Loader(valid_Data, batch_Size, pad_Index)
-test_Data_Loader = get_Data_Loader(test_Data, batch_Size, pad_Index) 
+test_Data_Loader = get_Data_Loader(test_Data, batch_Size, pad_Index)
 
 #Model declaration 
-class NBoW(nn.Module):
-    def __init__(self, vocab_Size, embedding_Dim, output_Dim, pad_Index):
+class CNN(nn.Module):
+    def __init__(self, vocab_Size, embedding_Dim, n_Filters, filter_Sizes, output_Dim, dropout_Rate, pad_Index):
         super().__init__()
-        self.embedding = nn.Embedding(vocab_Size, embedding_Dim, padding_idx = pad_Index)
-        self.fc = nn.Linear(embedding_Dim, output_Dim)
+        self.embedding = nn.Embedding(vocab_Size, embedding_Dim, padding_idx=pad_Index)
+        self.convs = nn.ModuleList(
+            [
+                nn.Conv1d(embedding_Dim, n_Filters, filter_size)
+                for filter_size in filter_Sizes
+            ]
+        )
+        self.fc = nn.Linear(len(filter_Sizes) * n_Filters, output_Dim)
+        self.dropout = nn.Dropout(dropout_Rate)
 
     def forward(self, ids):
         #ids = [batch size, seq len]
-        embedded = self.embedding(ids)
+        embedded = self.dropout(self.embedding(ids))
         #embedded = [batch size, seq len, embedding dim]
-        pooled = embedded.mean(dim=1)
-        #pooled = [batch size, embedding dim]
-        prediction = self.fc(pooled)
+        embedded = embedded.permute(0, 2, 1)
+        #embedded = [batch size, embedding dim, seq len]
+        conved = [torch.relu(conv(embedded)) for conv in self.convs]
+        #conved_n = [batch size, n filters, seq len - filter_sizes[n] + 1]
+        pooled = [conv.max(dim=-1).values for conv in conved]
+        #pooled_n = [batch size, n filters]
+        cat = self.dropout(torch.cat(pooled, dim=-1))
+        #cat = [batch size, n filters * len(filter_sizes)]
+        prediction = self.fc(cat)
         #prediction = [batch size, output dim]
-        return prediction 
+        return prediction
 
 #Model instance 
-nbow = NBoW(vocab_Size, embedding_Dim, output_Dim, pad_Index) 
+cnn = CNN(vocab_Size, embedding_Dim, n_Filters, filter_Sizes, output_Dim, dropout_Rate, pad_Index)
 
 #Function that returns the number of trainable parameters 
-def count_Parameters(model):
+def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f"The model has {count_parameters(cnn):,} trainable parameters")
 
-print(f"The model has {count_Parameters(nbow):,} trainable parameters") 
+def initialize_weights(m):
+    if isinstance(m, nn.Linear):
+        nn.init.xavier_normal_(m.weight)
+        nn.init.zeros_(m.bias)
+    elif isinstance(m, nn.Conv1d):
+        nn.init.kaiming_normal_(m.weight, nonlinearity="relu")
+        nn.init.zeros_(m.bias)
 
-vectors = torchtext.vocab.GloVe() 
-hello_vector = vectors.get_vecs_by_tokens("hello") 
+cnn.apply(initialize_weights)
 
-print(hello_vector.shape) 
-print(hello_vector[:32] )
-
-pretrained_embedding = vectors.get_vecs_by_tokens(vocab.get_itos()) 
-print(pretrained_embedding.shape) 
-print(nbow.embedding.weight)
-print(pretrained_embedding) 
-
-nbow.embedding.weight.data = pretrained_embedding
-print(nbow.embedding.weight)
-
-optimizer = optim.Adam(nbow.parameters())
+vectors = torchtext.vocab.GloVe()
+pretrained_embedding = vectors.get_vecs_by_tokens(vocab.get_itos())
+cnn.embedding.weight.data = pretrained_embedding
+optimizer = optim.Adam(cnn.parameters())
 criterion = nn.CrossEntropyLoss()
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model = nbow.to(device)
-criterion = criterion.to(device) 
+model = cnn.to(device)
+criterion = criterion.to(device)
 
 #Training 
 def train(data_Loader, model, criterion, optimizer, device):
     model.train()
-    epoch_Losses = []
-    epoch_Accs = []
+    epoch_losses = []
+    epoch_accs = []
     for batch in tqdm.tqdm(data_Loader, desc="training..."):
         ids = batch["ids"].to(device)
         label = batch["label"].to(device)
         prediction = model(ids)
         loss = criterion(prediction, label)
-        accuracy = get_Accuracy(prediction, label)
+        accuracy = get_accuracy(prediction, label)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        epoch_Losses.append(loss.item())
-        epoch_Accs.append(accuracy.item())
-    return np.mean(epoch_Losses), np.mean(epoch_Accs) 
+        epoch_losses.append(loss.item())
+        epoch_accs.append(accuracy.item())
+    return np.mean(epoch_losses), np.mean(epoch_accs)
 
 #Evaluation and accuracy functions 
 def evaluate(data_Loader, model, criterion, device):
     model.eval()
-    epoch_Losses = []
-    epoch_Accs = []
+    epoch_losses = []
+    epoch_accs = []
     with torch.no_grad():
         for batch in tqdm.tqdm(data_Loader, desc="evaluating..."):
             ids = batch["ids"].to(device)
             label = batch["label"].to(device)
             prediction = model(ids)
             loss = criterion(prediction, label)
-            accuracy = get_Accuracy(prediction, label)
-            epoch_Losses.append(loss.item())
-            epoch_Accs.append(accuracy.item())
-    return np.mean(epoch_Losses), np.mean(epoch_Accs) 
+            accuracy = get_accuracy(prediction, label)
+            epoch_losses.append(loss.item())
+            epoch_accs.append(accuracy.item())
+    return np.mean(epoch_losses), np.mean(epoch_accs)
 
-def get_Accuracy(prediction, label):
+def get_accuracy(prediction, label):
     batch_Size, _ = prediction.shape
     predicted_Classes = prediction.argmax(dim=-1)
     correct_Predictions = predicted_Classes.eq(label).sum()
     accuracy = correct_Predictions / batch_Size
-    return accuracy 
+    return accuracy
 
 #Training 
 n_epochs = 10
@@ -170,12 +177,15 @@ for epoch in range(n_epochs):
     metrics["valid_losses"].append(valid_Loss)
     metrics["valid_accs"].append(valid_Acc)
     if valid_Loss < best_Valid_Loss:
-        best_valid_loss = valid_Loss
-        torch.save(model.state_dict(), "NBoW_cache/nbow.pt") 
-        torch.save(vocab, "NBoW_cache/vocab.pt") 
-        torch.save(embedding_Dim, "NBoW_cache/embedding_Dim.pt") 
-        torch.save(output_Dim, "NBoW_cache/output_Dim.pt") 
-        torch.save(pad_Index, "NBoW_cache/pad_Index.pt")
+        best_Valid_Loss = valid_Loss
+        torch.save(model.state_dict(), "CNN_cache/cnn.pt")
+        torch.save(vocab, "CNN_cache/vocab.pt")
+        torch.save(embedding_Dim, "CNN_cache/embedding_Dim.pt")
+        torch.save(output_Dim, "CNN_cache/output_Dim.pt")
+        torch.save(pad_Index, "CNN_cache/pad_Index.pt")
+        torch.save(n_Filters, "CNN_cache/n_Filters.pt") 
+        torch.save(filter_Sizes, "CNN_cache/filter_Sizes.pt")
+        torch.save(dropout_Rate, "CNN_cache/dropout_Rate.pt")
     print(f"epoch: {epoch}")
     print(f"train_loss: {train_Loss:.3f}, train_acc: {train_Acc:.3f}")
     print(f"valid_loss: {valid_Loss:.3f}, valid_acc: {valid_Acc:.3f}") 
@@ -200,10 +210,9 @@ ax.set_ylabel("loss")
 ax.set_xticks(range(n_epochs))
 ax.legend()
 ax.grid() 
-plt.show() 
 
 #Loading saved model 
-model.load_state_dict(torch.load("NBoW_cache/nbow.pt"))
+model.load_state_dict(torch.load("CNN_cache/cnn.pt"))
 
 #Calls evaluate function 
 test_loss, test_acc = evaluate(test_Data_Loader, model, criterion, device) 
