@@ -69,14 +69,14 @@
           <!--Sentiment Analyzer Section-->
           <div class="col-md-6 border">
               <h2>Sentiment Analyzer</h2> 
-              <h4>Select a sentiment analysis model and enter a short text (< 500 words) below. Simply select the 'Analyze Sentiment!' button to generate results!</h4>
+              <h4>Select a sentiment application and enter a short text (< 500 words) below. Then simply select the 'Analyze Sentiment!' button to generate results for each model!</h4>
                                   
               <form action="/analyze_sentiment" method = "POST">
                   <div class="mb-3">
                     <label for="dropdownOptions" class="form-label">Application Select:</label>
                     <select class="form-select form-control custom-dropdown" id="dropdownOptions" name="application_Select">
-                        <option value="Finance">Financial Sentiment</option>                          
-                        <option value="General">General Sentiment</option>
+                      <option value="General">General Sentiment</option>  
+                      <option value="Finance">Financial Sentiment</option>                          
                     </select> 
                   </div>
                   <br><div class="mb-3">
@@ -88,52 +88,53 @@
 
           <!--Sentiment Analysis Section-->
           <div class="col-md-6 border">
-            <h2>Sentiment Analysis</h2>
+            <h2>Sentiment Analysis</h2> 
+              <!--Lexicon Section-->
               <div id="Lexicon" class="col-sm-12"> 
                 <div class="col-sm-8">
                   <label class="form-label">Lexicon Based Approach:</label>
-                  <h2><span id="class-label" class="label label-default">Class Prediction: </span></h2>
+                  <h2><span id="lexicon-sentiment-label" class="label label-default">Predicted Class: {{lexicon_Class}}</span></h2>
                   <!--Sentiment Bar-->
                   <div class="progress">
                     <div 
-                      id="sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                      id="lexicon-sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
-                  <span id="sentiment-icon" class="fas fa-meh icon-neutral"></span>
+                  <span id="lexicon-sentiment-icon" class="fas fa-meh icon-neutral"></span>
                 </div>
               </div>
-
+              <!--NBoW Section-->
               <div id="NBoW Model" class="col-sm-12"> 
                 <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
-                  <span id="sentiment-icon" class="fas fa-meh icon-neutral"></span>
+                  <span id="nbow-sentiment-icon" class="fas fa-meh icon-neutral"></span>
                 </div>
                 <div class="col-sm-8">
                   <label for="dropdownOptions" class="form-label">Neural Bag of Words Model:</label>
-                  <h2><span id="class-label" class="label label-default">Class Prediction:</span></h2>
+                  <h2><span id="nbow-sentiment-label" class="label label-default">Predicted Class: {{nbow_Class}}</span></h2>
                   <!--Sentiment Bar-->
                   <div class="progress">
                     <div 
-                      id="sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                      id="nbow-sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                     </div>
                   </div>
                 </div>
               </div> 
-              
+              <!--CNN Section-->
               <div id="CNN Model" class="col-sm-12"> 
                 <div class="col-sm-8">
                   <br><label for="dropdownOptions" class="form-label">Convolutional Neural Network Model:</label>
-                  <h2><span id="class-label" class="label label-default">Class Prediction:</span></h2>
+                  <h2><span id="cnn-sentiment-label" class="label label-default">Predicted Class: {{cnn_Class}}</span></h2>
                   <!--Sentiment Bar-->
                   <div class="progress">
                     <div 
-                      id="sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                      id="cnn-sentiment-bar" class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
-                  <span id="sentiment-icon" class="fas fa-meh icon-neutral"></span>
+                  <span id="cnn-sentiment-icon" class="fas fa-meh icon-neutral"></span>
                 </div>
               </div>
               

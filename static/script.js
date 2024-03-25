@@ -21,53 +21,125 @@ async function getSentiment() {
         });
         const data = await response.text();
 
-        const polarity = data;
+        const sentiment = data;
 
         //Parses the JSON string
-        const parsedResponse = JSON.parse(polarity);
+        const parsedSentiment = JSON.parse(sentiment); 
 
         //Extracts the polarity value as a float
-        const polarityValue = parseFloat(parsedResponse.polarity).toFixed(2); 
-        const roundedPolarityValue = Math.abs(polarityValue*100);
+        const lexicon_Polarity = parseFloat(parsedSentiment.lexicon_Polarity).toFixed(2);
+        const rounded_Lexicon_Polarity = Math.abs(lexicon_Polarity*100)
 
-        //Gets the progress bar, icon, and label elements
-        const sentimentBar = document.getElementById('sentiment-bar'); 
-        const sentimentIcon = document.getElementById('sentiment-icon'); 
-        const polarityLabel = document.querySelector('#polarity-label'); 
-        const subjectivityLabel = document.querySelector('#subjectivity-label') 
+        const nbow_Class = parsedSentiment.nbow_Class; 
+        const nbow_Probability = parseFloat(parsedSentiment.nbow_Probability).toFixed(2);
+        const rounded_nbow_Probability = Math.abs(nbow_Probability*100) 
 
-        //Update the width based on the polarity
-        sentimentBar.style.width = `${roundedPolarityValue}%`; 
+        const cnn_Class = parsedSentiment.cnn_Class; 
+        const cnn_Probability = parseFloat(parsedSentiment.cnn_Probability).toFixed(2);
+        const rounded_cnn_Probability = Math.abs(cnn_Probability*100)
+
+        //Gets the lexicon progress bar, icon, and label elements 
+        const lexiconSentimentBar = document.getElementById('lexicon-sentiment-bar'); 
+        const lexiconSentimentIcon = document.getElementById('lexicon-sentiment-icon'); 
+        const lexiconSentimentLabel = document.querySelector('#lexicon-sentiment-label'); 
+        //const subjectivityLabel = document.querySelector('#subjectivity-label') 
+
+        //Gets the nbow progress bar, icon, and label elements
+        const nbowSentimentBar = document.getElementById('nbow-sentiment-bar') 
+        const nbowSentimentIcon = document.getElementById('nbow-sentiment-icon')
+        const nbowClassLabel = document.querySelector('#nbow-sentiment-label') 
+
+        //Gets the cnn progress bar, icon, and label elements
+        const cnnSentimentBar = document.getElementById('cnn-sentiment-bar') 
+        const cnnSentimentIcon = document.getElementById('cnn-sentiment-icon')
+        const cnnClassLabel = document.querySelector('#cnn-sentiment-label')
+
+        //Update the width based on the sentiment bars 
+        lexiconSentimentBar.style.width = `${rounded_Lexicon_Polarity}%`; 
+        nbowSentimentBar.style.width = `${rounded_nbow_Probability}%`; 
+        cnnSentimentBar.style.width = `${rounded_cnn_Probability}%`; 
+
         //Updates the background color and message based on polarity 
-        if(polarityValue > 0.25) { 
-          sentimentBar.style.backgroundColor = 'rgb(140, 193, 82)'; 
-          sentimentBar.innerHTML = `Positive: ${polarityValue}`; 
-          sentimentIcon.classList.remove('fa-meh'); 
-          sentimentIcon.classList.remove('fa-frown-open')
-          sentimentIcon.classList.add('fa-grin', 'icon-positive'); 
-          polarityLabel.style.backgroundColor = 'rgb(140, 193, 82)'; 
-          subjectivityLabel.style.backgroundColor = 'rgb(140, 193, 82)';
+        if(lexicon_Polarity > 0.25) { 
+          lexiconSentimentBar.style.backgroundColor = 'rgb(140, 193, 82)'; 
+          lexiconSentimentBar.innerHTML = `Polarity Score: ${lexicon_Polarity}`; 
+          lexiconSentimentIcon.classList.remove('fa-meh'); 
+          lexiconSentimentIcon.classList.remove('fa-frown-open')
+          lexiconSentimentIcon.classList.add('fa-grin', 'icon-positive'); 
+          lexiconSentimentLabel.style.backgroundColor = 'rgb(140, 193, 82)'; 
+          //subjectivityLabel.style.backgroundColor = 'rgb(140, 193, 82)';
         } 
-        else if(polarityValue < -0.25) {
-          sentimentBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
-          sentimentBar.innerHTML = `Negative: ${polarityValue}`; 
-          sentimentIcon.classList.remove('fa-meh'); 
-          sentimentIcon.classList.remove('fa-grin')
-          sentimentIcon.classList.add('fa-frown-open', 'icon-negative'); 
-          polarityLabel.style.backgroundColor = 'rgb(193, 82, 82)'; 
-          subjectivityLabel.style.backgroundColor = 'rgb(193, 82, 82)';
+        else if(lexicon_Polarity < -0.25) {
+          lexiconSentimentBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
+          lexiconSentimentBar.innerHTML = `Polarity Score: ${lexicon_Polarity}`; 
+          lexiconSentimentIcon.classList.remove('fa-meh'); 
+          lexiconSentimentIcon.classList.remove('fa-grin')
+          lexiconSentimentIcon.classList.add('fa-frown-open', 'icon-negative'); 
+          lexiconSentimentLabel.style.backgroundColor = 'rgb(193, 82, 82)'; 
+          //subjectivityLabel.style.backgroundColor = 'rgb(193, 82, 82)';
         } 
         else {
-          sentimentBar.style.backgroundColor = 'rgb(138, 138, 138)'; 
-          sentimentBar.style.color = 'rgb(0,0,0)' 
-          sentimentBar.innerHTML = `Neutral: ${polarityValue}`; 
-          sentimentIcon.classList.remove('fa-frown-open'); 
-          sentimentIcon.classList.remove('fa-grin')
-          sentimentIcon.classList.add('fa-meh', 'icon-neutral'); 
-          polarityLabel.style.backgroundColor = 'rgb(138, 138, 138)'; 
-          subjectivityLabel.style.backgroundColor = 'rgb(138, 138, 138)';
+          lexiconSentimentBar.style.backgroundColor = 'rgb(138, 138, 138)'; 
+          lexiconSentimentBar.style.color = 'rgb(0,0,0)' 
+          lexiconSentimentBar.innerHTML = `Polarity Score: ${lexicon_Polarity}`; 
+          lexiconSentimentIcon.classList.remove('fa-frown-open'); 
+          lexiconSentimentIcon.classList.remove('fa-grin')
+          lexiconSentimentIcon.classList.add('fa-meh', 'icon-neutral'); 
+          lexiconSentimentLabel.style.backgroundColor = 'rgb(138, 138, 138)'; 
+          //subjectivityLabel.style.backgroundColor = 'rgb(138, 138, 138)';
         }
 
+        if(nbow_Class == 'Positive') { 
+          nbowSentimentBar.style.backgroundColor = 'rgb(140, 193, 82)'; 
+          nbowSentimentBar.innerHTML = `Prediction Probability: ${rounded_nbow_Probability}%`; 
+          nbowSentimentIcon.classList.remove('fa-meh'); 
+          nbowSentimentIcon.classList.remove('fa-frown-open')
+          nbowSentimentIcon.classList.add('fa-grin', 'icon-positive'); 
+          nbowClassLabel.style.backgroundColor = 'rgb(140, 193, 82)'; 
+        } 
+        else if(nbow_Class == 'Negative') {
+          nbowSentimentBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
+          nbowSentimentBar.innerHTML = `Prediction Probability: ${rounded_nbow_Probability}%`; 
+          nbowSentimentIcon.classList.remove('fa-meh'); 
+          nbowSentimentIcon.classList.remove('fa-grin')
+          nbowSentimentIcon.classList.add('fa-frown-open', 'icon-negative'); 
+          nbowClassLabel.style.backgroundColor = 'rgb(193, 82, 82)'; 
+        }
+        else {
+          nbowSentimentBar.style.backgroundColor = 'rgb(138, 138, 138)'; 
+          nbowSentimentBar.style.color = 'rgb(0,0,0)' 
+          nbowSentimentBar.innerHTML = `Prediction Probability: ${rounded_nbow_Probability}%`; 
+          nbowSentimentIcon.classList.remove('fa-frown-open'); 
+          nbowSentimentIcon.classList.remove('fa-grin')
+          nbowSentimentIcon.classList.add('fa-meh', 'icon-neutral');
+          nbowClassLabel.style.backgroundColor = 'rgb(138, 138, 138)'; 
+        } 
+
+        if(cnn_Class == 'Positive') { 
+          cnnSentimentBar.style.backgroundColor = 'rgb(140, 193, 82)'; 
+          cnnSentimentBar.innerHTML = `Prediction Probability: ${rounded_cnn_Probability}%`; 
+          cnnSentimentIcon.classList.remove('fa-meh'); 
+          cnnSentimentIcon.classList.remove('fa-frown-open')
+          cnnSentimentIcon.classList.add('fa-grin', 'icon-positive'); 
+          cnnClassLabel.style.backgroundColor = 'rgb(140, 193, 82)'; 
+        } 
+        else if(cnn_Class == 'Negative') {
+          cnnSentimentBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
+          cnnSentimentBar.innerHTML = `Prediction Probability: ${rounded_cnn_Probability}%`; 
+          cnnSentimentIcon.classList.remove('fa-meh'); 
+          cnnSentimentIcon.classList.remove('fa-grin')
+          cnnSentimentIcon.classList.add('fa-frown-open', 'icon-negative'); 
+          cnnClassLabel.style.backgroundColor = 'rgb(193, 82, 82)'; 
+        }
+        else {
+          cnnSentimentBar.style.backgroundColor = 'rgb(138, 138, 138)'; 
+          cnnSentimentBar.style.color = 'rgb(0,0,0)' 
+          cnnSentimentBar.innerHTML = `Prediction Probability: ${rounded_cnn_Probability}%`; 
+          cnnSentimentIcon.classList.remove('fa-frown-open'); 
+          cnnSentimentIcon.classList.remove('fa-grin')
+          cnnSentimentIcon.classList.add('fa-meh', 'icon-neutral');
+          cnnClassLabel.style.backgroundColor = 'rgb(138, 138, 138)'; 
+        }
     } 
     catch (error) {
         console.error('Error fetching sentiment:', error);
