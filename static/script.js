@@ -60,7 +60,7 @@ async function getSentiment() {
         cnnSentimentBar.style.width = `${rounded_cnn_Probability}%`; 
 
         //Updates the background color and message based on polarity 
-        if(lexicon_Polarity > 0.25) { 
+        if(lexicon_Polarity > 0.00) { 
           lexiconSentimentBar.style.backgroundColor = 'rgb(140, 193, 82)'; 
           lexiconSentimentBar.innerHTML = `Polarity Score: ${lexicon_Polarity}`; 
           lexiconSentimentIcon.classList.remove('fa-meh'); 
@@ -69,7 +69,7 @@ async function getSentiment() {
           lexiconSentimentLabel.style.backgroundColor = 'rgb(140, 193, 82)'; 
           //subjectivityLabel.style.backgroundColor = 'rgb(140, 193, 82)';
         } 
-        else if(lexicon_Polarity < -0.25) {
+        else if(lexicon_Polarity < 0.00) {
           lexiconSentimentBar.style.backgroundColor = 'rgb(193, 82, 82)'; 
           lexiconSentimentBar.innerHTML = `Polarity Score: ${lexicon_Polarity}`; 
           lexiconSentimentIcon.classList.remove('fa-meh'); 

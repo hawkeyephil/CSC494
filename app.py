@@ -26,7 +26,7 @@ def index():
 @app.route('/sandbox') 
 def sandbox(): 
     #Establishes sentiment score variable for the session 
-    session['polarity'] = 0.0
+    #session['polarity'] = 0.0
     return render_template('sandbox.html')
 
 #Sandbox sentiment route (this can be phased out now with the js script in place)
@@ -55,9 +55,9 @@ def analyze_sentiment():
                 #Extract the polarity and subjectivity scores 
                 lexicon_Polarity = format(lexicon_Scores['polarity'], '.2f') 
                 #subjectivity = format(lexicon_Scores['subjectivity'], '.2f')
-                if float(lexicon_Polarity) > 0.25:
+                if float(lexicon_Polarity) > 0.00:
                     lexicon_Class = 'Positive' 
-                elif float(lexicon_Polarity) < -0.25: 
+                elif float(lexicon_Polarity) < 0.00: 
                     lexicon_Class = 'Negative' 
                 else: 
                     lexicon_Class = 'Neutral'
@@ -90,9 +90,9 @@ def analyze_sentiment():
                 lexicon_Polarity = format(lexicon_Scores['polarity'], '.2f') 
                 print(lexicon_Polarity)
                 #subjectivity = format(lexicon_Scores['subjectivity'], '.2f')
-                if float(lexicon_Polarity) > 0.25:
+                if float(lexicon_Polarity) > 0.00:
                     lexicon_Class = 'Positive' 
-                elif float(lexicon_Polarity) < -0.25: 
+                elif float(lexicon_Polarity) < 0.00: 
                     lexicon_Class = 'Negative' 
                 else: 
                     lexicon_Class = 'Neutral'
