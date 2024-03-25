@@ -26,7 +26,7 @@ def index():
 @app.route('/sandbox') 
 def sandbox(): 
     #Establishes sentiment score variable for the session 
-    #session['polarity'] = 0.0
+    #session['lexicon_Polarity'] = 0.0
     return render_template('sandbox.html')
 
 #Sandbox sentiment route (this can be phased out now with the js script in place)
@@ -34,17 +34,16 @@ def sandbox():
 def analyze_sentiment(): 
     application = request.form.get('application_Select')
     #model = request.form.get('model_Select') 
+    lexicon_Class = 'Neutral'
+    lexicon_Polarity = 0.00 
+    nbow_Class = 'Neutral' 
+    nbow_Probability = 0.00 
+    cnn_Class = 'Neutral' 
+    cnn_Probability = 0.00
     if request.method == 'POST':
         #Fetches the user input from the textarea
         user_input = request.form['user_text'] 
         #print(user_input) 
-
-        lexicon_Class = 'Neutral'
-        lexicon_Polarity = 0.00 
-        nbow_Class = 'Neutral' 
-        nbow_Probability = 0.00 
-        cnn_Class = 'Neutral' 
-        cnn_Probability = 0.00
 
         if not user_input: 
             print("No User Input") 
@@ -122,12 +121,12 @@ def analyze_sentiment():
             else:
                 print('Invalid Application Selected')  
                  
-    #Store the lexicon polarity, nbow probability, and the cnn probability score in the session 
-    session['lexicon_Polarity'] = lexicon_Polarity 
-    session['nbow_Class'] = nbow_Class
-    session['nbow_Probability'] = nbow_Probability 
-    session['cnn_Class'] = cnn_Class
-    session['cnn_Probability'] = cnn_Probability 
+        #Store the lexicon polarity, nbow probability, and the cnn probability score in the session 
+        session['lexicon_Polarity'] = lexicon_Polarity 
+        session['nbow_Class'] = nbow_Class
+        session['nbow_Probability'] = nbow_Probability 
+        session['cnn_Class'] = cnn_Class
+        session['cnn_Probability'] = cnn_Probability 
     #Display the results to the page 
     return render_template('sandbox.html', lexicon_Class=lexicon_Class, nbow_Class=nbow_Class, cnn_Class=cnn_Class)
 
