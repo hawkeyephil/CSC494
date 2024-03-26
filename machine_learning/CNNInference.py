@@ -74,4 +74,5 @@ def predict_Sentiment(text):
     return predicted_Class, predicted_Probability 
 
 #Debugging 
-##print(predict_Sentiment(text))
+text = 'The international electronic industry company Elcoteq has laid off tens of employees from its Tallinn facility ; contrary to earlier layoffs the company contracted the ranks of its office workers , the daily Postimees reported'
+print(predict_Sentiment(text))

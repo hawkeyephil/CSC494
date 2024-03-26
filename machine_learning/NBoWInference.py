@@ -53,6 +53,6 @@ def predict_Sentiment(text):
     return predicted_class, predicted_probability 
 
 #Debugging 
-#text = 'That moviee was fantastic!'
-#print(predict_sentiment(text))
+text = 'Teslas stock rising faster than your heart rate when you accidentally send a risky text!' 
+print(predict_Sentiment(text))
 

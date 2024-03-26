@@ -6,7 +6,8 @@ import torch.nn as nn
 import torch.optim as optim
 import torchtext
 import tqdm 
-import machine_learning.MLPreProcessor as pp 
+#import MLPreProcessor as pp 
+import FinancePreProcessor as pp
 
 #Seed 
 seed = 1234
@@ -178,14 +179,14 @@ for epoch in range(n_epochs):
     metrics["valid_accs"].append(valid_Acc)
     if valid_Loss < best_Valid_Loss:
         best_Valid_Loss = valid_Loss
-        torch.save(model.state_dict(), "CNN_cache/cnn.pt")
-        torch.save(vocab, "CNN_cache/vocab.pt")
-        torch.save(embedding_Dim, "CNN_cache/embedding_Dim.pt")
-        torch.save(output_Dim, "CNN_cache/output_Dim.pt")
-        torch.save(pad_Index, "CNN_cache/pad_Index.pt")
-        torch.save(n_Filters, "CNN_cache/n_Filters.pt") 
-        torch.save(filter_Sizes, "CNN_cache/filter_Sizes.pt")
-        torch.save(dropout_Rate, "CNN_cache/dropout_Rate.pt")
+        torch.save(model.state_dict(), "finance_CNN_cache/cnn.pt")
+        torch.save(vocab, "finance_CNN_cache/vocab.pt")
+        torch.save(embedding_Dim, "finance_CNN_cache/embedding_Dim.pt")
+        torch.save(output_Dim, "finance_CNN_cache/output_Dim.pt")
+        torch.save(pad_Index, "finance_CNN_cache/pad_Index.pt")
+        torch.save(n_Filters, "finance_CNN_cache/n_Filters.pt") 
+        torch.save(filter_Sizes, "finance_CNN_cache/filter_Sizes.pt")
+        torch.save(dropout_Rate, "finance_CNN_cache/dropout_Rate.pt")
     print(f"epoch: {epoch}")
     print(f"train_loss: {train_Loss:.3f}, train_acc: {train_Acc:.3f}")
     print(f"valid_loss: {valid_Loss:.3f}, valid_acc: {valid_Acc:.3f}") 
@@ -212,7 +213,7 @@ ax.legend()
 ax.grid() 
 
 #Loading saved model 
-model.load_state_dict(torch.load("CNN_cache/cnn.pt"))
+model.load_state_dict(torch.load("finance_CNN_cache/cnn.pt"))
 
 #Calls evaluate function 
 test_loss, test_acc = evaluate(test_Data_Loader, model, criterion, device) 
