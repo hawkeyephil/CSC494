@@ -69,14 +69,14 @@
           <!--Sentiment Analyzer Section-->
           <div class="col-md-6 border">
               <h2>Sentiment Analyzer</h2> 
-              <h4>Select a sentiment application and enter a short text (< 500 words) below. Then simply select the 'Analyze Sentiment!' button to generate results for each model!</h4>
+              <h4>Select a sentiment application (movie reviews or financial Tweets) and enter a review or Tweet (< 500 words) below. Then simply select the 'Analyze Sentiment!' button to generate results for each model!</h4>
                                   
               <form action="/analyze_sentiment" method = "POST">
                   <div class="mb-3">
                     <label for="dropdownOptions" class="form-label">Application Select:</label>
                     <select class="form-select form-control custom-dropdown" id="dropdownOptions" name="application_Select">
-                      <option value="General">General Sentiment</option>  
-                      <option value="Finance">Financial Sentiment</option>                          
+                      <option value="General">Movie Reviews</option>  
+                      <option value="Finance">Market Analysis</option>                          
                     </select> 
                   </div>
                   <br><div class="mb-3">

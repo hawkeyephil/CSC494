@@ -62,9 +62,9 @@ def analyze_sentiment():
                     lexicon_Class = 'Neutral'
 
                 #Extract the sentiment using the NBoW model 
-                nbow_Scores = nbow.predict_Sentiment(user_input) 
-                print('NBoW Model Selected')
-                if nbow_Scores[0] == 1: 
+                nbow_Scores = nbow.predict_Sentiment(user_input, application) 
+                #print('NBoW Model Selected')
+                if nbow_Scores[0] == 2: 
                     nbow_Class = 'Positive' 
                 elif nbow_Scores[0] == 0: 
                     nbow_Class = 'Negative' 
@@ -73,16 +73,16 @@ def analyze_sentiment():
                 nbow_Probability = nbow_Scores[1]
                             
                 #Extract the sentiment using the CNN model 
-                cnn_Scores = cnn.predict_Sentiment(user_input)
-                print('CNN Model Selected')
-                if cnn_Scores[0] == 1: 
+                cnn_Scores = cnn.predict_Sentiment(user_input, application)
+                #print('CNN Model Selected')
+                if cnn_Scores[0] == 2: 
                     cnn_Class = 'Positive' 
                 elif cnn_Scores[0] == 0: 
                     cnn_Class = 'Negative' 
                 else: 
                     cnn_Class = 'Neutral'
                 cnn_Probability = cnn_Scores[1]
-            elif application == 'General': 
+            elif application == 'General':
                 #Analyze the sentiment using the dictionary approach 
                 lexicon_Scores = dict.sentiment_analyzer(user_input, 'Harvard-IV') 
                 #Extract the polarity and subjectivity scores 
@@ -97,25 +97,28 @@ def analyze_sentiment():
                     lexicon_Class = 'Neutral'
 
                 #Extract the sentiment using the NBoW model 
-                nbow_Scores = nbow.predict_Sentiment(user_input) 
-                print('NBoW Model Selected')
+                nbow_Scores = nbow.predict_Sentiment(user_input, application) 
+                print('NBoW Model Selected') 
                 if nbow_Scores[0] == 1: 
                     nbow_Class = 'Positive' 
                 elif nbow_Scores[0] == 0: 
                     nbow_Class = 'Negative' 
                 else: 
-                    nbow_Class = 'Neutral'
+                    nbow_Class = 'Neutral' 
+                print(nbow_Class)
                 nbow_Probability = nbow_Scores[1]
-                print(nbow_Probability)
+                print(nbow_Probability) 
+
                 #Extract the sentiment using the CNN model 
-                cnn_Scores = cnn.predict_Sentiment(user_input)
+                cnn_Scores = cnn.predict_Sentiment(user_input, application)
                 print('CNN Model Selected')
                 if cnn_Scores[0] == 1: 
                     cnn_Class = 'Positive' 
                 elif cnn_Scores[0] == 0: 
                     cnn_Class = 'Negative' 
                 else: 
-                    cnn_Class = 'Neutral'
+                    cnn_Class = 'Neutral' 
+                print(cnn_Class)
                 cnn_Probability = cnn_Scores[1]
                 print(cnn_Probability)
             else:
