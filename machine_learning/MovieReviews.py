@@ -4,7 +4,9 @@ import LexiconInference as sa
 import NBoWInference as nbow 
 import CNNInference as cnn 
 from sklearn import metrics 
-import numpy as np
+import matplotlib.pyplot as plt 
+import plotly.express as px 
+import seaborn as sns 
 
 #Relative filepath to .csv file with URLs to Movie Reviews/Ratings  
 path = Path(__file__).parent.parent / "MovieReviews.csv" 
@@ -12,7 +14,7 @@ path = Path(__file__).parent.parent / "MovieReviews.csv"
 df_Reviews = pd.read_csv(path, sep = ',') 
 
 #Dataframe to store sentiment scores 
-sentiment = {'Review': [], 'Sentiment': [], 'Lexicon_Sentiment': [], 'NBoW_Sentiment': [], 'CNN_Sentiment': []}
+sentiment = {'True Sentiment': [], 'Predicted Lexicon Sentiment': [], 'Predicted NBoW Sentiment': [], 'Predicted CNN Sentiment': []}
 df_Scores = pd.DataFrame(sentiment)
 
 #Extracts sentiment from every review with each model  
@@ -47,19 +49,34 @@ for index, row in df_Reviews.iterrows():
         cnn_Class = 'N/A'
 
     #Appends the sentiment scores for that review to the scores dataframe 
-    sentiment_Scores = {'Review': review, 'Sentiment': rating, 'Lexicon_Sentiment': lexicon_Class, 'NBoW_Sentiment': nbow_Class, 'CNN_Sentiment': cnn_Class} 
+    sentiment_Scores = {'True Sentiment': rating, 'Predicted Lexicon Sentiment': lexicon_Class, 'Predicted NBoW Sentiment': nbow_Class, 'Predicted CNN Sentiment': cnn_Class} 
     #print(sentiment_Scores) 
     df_Scores = df_Scores.append(sentiment_Scores, ignore_index = True) 
 
 #Lexicon confusion matrix 
-lexicon_Confusion_Matrix = metrics.confusion_matrix(df_Scores['Sentiment'], df_Scores['Lexicon_Sentiment']) 
+lexicon_Confusion_Matrix = metrics.confusion_matrix(df_Scores['True Sentiment'], df_Scores['Predicted Lexicon Sentiment']) 
 print(lexicon_Confusion_Matrix) 
 
 #NBoW confusion matrix 
-nbow_Confusion_Matrix = metrics.confusion_matrix(df_Scores['Sentiment'], df_Scores['NBoW_Sentiment']) 
+nbow_Confusion_Matrix = metrics.confusion_matrix(df_Scores['True Sentiment'], df_Scores['Predicted NBoW Sentiment']) 
 print(nbow_Confusion_Matrix) 
 
 #CNN confusion matrix
-cnn_Confusion_Matrix = metrics.confusion_matrix(df_Scores['Sentiment'], df_Scores['CNN_Sentiment']) 
+cnn_Confusion_Matrix = metrics.confusion_matrix(df_Scores['True Sentiment'], df_Scores['Predicted CNN Sentiment']) 
 print(cnn_Confusion_Matrix) 
 
+#matplotlib visualization
+labels = [["Positive", "Negative"], ["Positive", "Negative"]]
+plt.imshow(lexicon_Confusion_Matrix, cmap='Reds', interpolation='nearest') 
+plt.xticks([0, 1], labels[0])
+plt.yticks([0, 1], labels[1])
+plt.colorbar()
+plt.xlabel('Predicted Value')
+plt.ylabel('True Value')
+plt.title('Lexicon Confusion Matrix')
+#plt.show() 
+
+#plotly visualization 
+colors = [(0, 'red'), (0.5, 'white'), (1, 'green')]
+fig = px.imshow(df_Scores, labels={"x": "Model", "y": "Review"}, color_continuous_scale=colors, title="Star Wars Reviews Sentiment Analysis")
+fig.show() 
