@@ -1,6 +1,6 @@
 #Import Statements 
 import pysentiment2 as ps 
-import machine_learning.LexiconPreProcessor as pp
+import LexiconPreProcessor as pp
 
 #Sentiment Dictionaries 
 #Harvard IV-4 (general purpose)

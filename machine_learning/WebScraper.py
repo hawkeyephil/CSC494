@@ -2,10 +2,10 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from pathlib import Path
+from pathlib import Path 
 
 #Relative filepath to .csv file with URLs to FED Statements/Dates 
-path = Path(__file__).parent / "CleanedPolicyStatementURLs.csv" 
+path = Path(__file__).parent.parent / "CleanedPolicyStatementURLs.csv" 
 #Pandas Dataframe that contains all of the URLs and dates 
 dataframe = pd.read_csv(path, sep = ',') 
 

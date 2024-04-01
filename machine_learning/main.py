@@ -1,7 +1,7 @@
 #Import Statements
 import pathlib as pl
 import os
-import machine_learning.LexiconInference as sa 
+import LexiconInference as sa 
 import matplotlib.pyplot as plt 
 import pandas as pd
 
@@ -22,7 +22,7 @@ def read_txt_file(file_path):
             file_content = f.read() 
             #Debugging
             #print(file_content)   
-            sentiment_score = sa.sentiment_analyzer(file_content) 
+            sentiment_score = sa.sentiment_analyzer(file_content, 'LM') 
             return(sentiment_score)
     except FileNotFoundError:
         return "File not found. Please provide a valid file path." 

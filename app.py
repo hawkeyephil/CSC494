@@ -63,7 +63,8 @@ def analyze_sentiment():
 
                 #Extract the sentiment using the NBoW model 
                 nbow_Scores = nbow.predict_Sentiment(user_input, application) 
-                #print('NBoW Model Selected')
+                print('NBoW Model Selected')
+                print(nbow_Scores)
                 if nbow_Scores[0] == 2: 
                     nbow_Class = 'Positive' 
                 elif nbow_Scores[0] == 0: 
@@ -74,7 +75,8 @@ def analyze_sentiment():
                             
                 #Extract the sentiment using the CNN model 
                 cnn_Scores = cnn.predict_Sentiment(user_input, application)
-                #print('CNN Model Selected')
+                print('CNN Model Selected') 
+                print(cnn_Scores)
                 if cnn_Scores[0] == 2: 
                     cnn_Class = 'Positive' 
                 elif cnn_Scores[0] == 0: 
@@ -99,6 +101,7 @@ def analyze_sentiment():
                 #Extract the sentiment using the NBoW model 
                 nbow_Scores = nbow.predict_Sentiment(user_input, application) 
                 print('NBoW Model Selected') 
+                print(nbow_Scores)
                 if nbow_Scores[0] == 1: 
                     nbow_Class = 'Positive' 
                 elif nbow_Scores[0] == 0: 
@@ -112,6 +115,7 @@ def analyze_sentiment():
                 #Extract the sentiment using the CNN model 
                 cnn_Scores = cnn.predict_Sentiment(user_input, application)
                 print('CNN Model Selected')
+                print(cnn_Scores)
                 if cnn_Scores[0] == 1: 
                     cnn_Class = 'Positive' 
                 elif cnn_Scores[0] == 0: 

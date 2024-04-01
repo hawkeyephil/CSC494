@@ -7,8 +7,7 @@ vocab.pt
 cnn.pt
 dropout_Rate.pt
 filter_Sizes.pt
-n_Filters.pt
-test.py
-test2.py
+n_Filters.pt 
 __pycache__ 
-.env
+.env 
+MovieReviews.csv
