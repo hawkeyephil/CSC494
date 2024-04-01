@@ -2,7 +2,9 @@ from pathlib import Path
 import pandas as pd 
 import LexiconInference as sa 
 import NBoWInference as nbow 
-import CNNInference as cnn
+import CNNInference as cnn 
+from sklearn import metrics 
+import numpy as np
 
 #Relative filepath to .csv file with URLs to Movie Reviews/Ratings  
 path = Path(__file__).parent.parent / "MovieReviews.csv" 
@@ -47,5 +49,17 @@ for index, row in df_Reviews.iterrows():
     #Appends the sentiment scores for that review to the scores dataframe 
     sentiment_Scores = {'Review': review, 'Sentiment': rating, 'Lexicon_Sentiment': lexicon_Class, 'NBoW_Sentiment': nbow_Class, 'CNN_Sentiment': cnn_Class} 
     #print(sentiment_Scores) 
-    df_Scores.append(sentiment_Scores, ignore_index = True)
-    
+    df_Scores = df_Scores.append(sentiment_Scores, ignore_index = True) 
+
+#Lexicon confusion matrix 
+lexicon_Confusion_Matrix = metrics.confusion_matrix(df_Scores['Sentiment'], df_Scores['Lexicon_Sentiment']) 
+print(lexicon_Confusion_Matrix) 
+
+#NBoW confusion matrix 
+nbow_Confusion_Matrix = metrics.confusion_matrix(df_Scores['Sentiment'], df_Scores['NBoW_Sentiment']) 
+print(nbow_Confusion_Matrix) 
+
+#CNN confusion matrix
+cnn_Confusion_Matrix = metrics.confusion_matrix(df_Scores['Sentiment'], df_Scores['CNN_Sentiment']) 
+print(cnn_Confusion_Matrix) 
+
