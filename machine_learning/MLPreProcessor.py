@@ -4,7 +4,7 @@ import datasets
 import torchtext
 
 #IMDb dataset --> split into trainning and test sets (25000 reviews each) 
-train_Data, test_Data = datasets.load_dataset("imdb", split=["train", "test"]) 
+train_Data, test_Data = datasets.load_dataset("imdb", split=["train", "test"])  
 #Debugging: Shows splits/features  
 print(train_Data)
 print(test_Data)

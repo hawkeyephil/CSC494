@@ -45,7 +45,7 @@ for index, row in df_Reviews.iterrows():
     elif cnn_Scores[0] == 0: 
         cnn_Class = 0 
     else: 
-        cnn_Class = 'N/A'
+        cnn_Class = 'N/A' 
 
     #Appends the sentiment scores for that review to the scores dataframe 
     sentiment_Scores = {'True Sentiment': rating, 'Predicted Lexicon Sentiment': lexicon_Class, 'Predicted NBoW Sentiment': nbow_Class, 'Predicted CNN Sentiment': cnn_Class} 
