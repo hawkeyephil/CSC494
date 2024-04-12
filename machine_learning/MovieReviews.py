@@ -6,7 +6,6 @@ import CNNInference as cnn
 from sklearn import metrics 
 import matplotlib.pyplot as plt 
 import plotly.express as px 
-import seaborn as sns 
 
 #Relative filepath to .csv file with URLs to Movie Reviews/Ratings  
 path = Path(__file__).parent.parent / "MovieReviews.csv" 
