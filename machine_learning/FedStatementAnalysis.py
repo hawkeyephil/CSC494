@@ -26,10 +26,32 @@ def read_txt_file(file_path):
             file_content = f.read() 
             #Debugging
             #print(file_content)   
-            lexicon_Score = sa.sentiment_analyzer(file_content, 'LM') 
-            nbow_Score = nbow.predict_Sentiment(file_content, 'Finance') 
-            cnn_Score = cnn.predict_Sentiment(file_content, 'Finance') 
-            sentiment_Scores = {'lexicon': lexicon_Score.get('polarity'), 'nbow': nbow_Score[0], 'cnn': cnn_Score[0]}
+            lexicon_Score = sa.sentiment_analyzer(file_content, 'LM').get('polarity')
+            if(lexicon_Score > 0.25): 
+                lexicon_Score = 1 
+            elif(lexicon_Score < -0.25): 
+                lexicon_Score = -1 
+            else: 
+                lexicon_Score = 0
+
+            nbow_Score = nbow.predict_Sentiment(file_content, 'Finance')[0] 
+            match nbow_Score:
+                case 0:
+                    nbow_Score = -1
+                case 2:
+                    nbow_Score = 1
+                case _: 
+                    nbow_Score = 0 
+
+            cnn_Score = cnn.predict_Sentiment(file_content, 'Finance')[0] 
+            match cnn_Score:
+                case 0:
+                    cnn_Score = -1
+                case 2:
+                    cnn_Score = 1
+                case _: 
+                    cnn_Score = 0
+            sentiment_Scores = {'lexicon': lexicon_Score, 'nbow': nbow_Score, 'cnn': cnn_Score}
             return(sentiment_Scores)
     except FileNotFoundError:
         return "File not found. Please provide a valid file path." 
