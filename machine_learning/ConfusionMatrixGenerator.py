@@ -12,7 +12,7 @@ import plotly.express as px
 train_Data, test_Data = datasets.load_dataset("imdb", split = ["train", "test"])
 
 #Creates a subset of the training data for validation 
-train_Valid_Data = train_Data.train_test_split(test_size = 0.20)
+train_Valid_Data = train_Data.train_test_split(test_size = 0.25) 
 train_Data = train_Valid_Data["train"]
 valid_Data = train_Valid_Data["test"]
 print(len(train_Data), len(valid_Data), len(test_Data))
@@ -81,5 +81,5 @@ for index, row in sorted_Validation_Data.iterrows():
 
 #plotly confusion matrix visualization 
 colors = [(0, 'red'), (0.5, 'white'), (1, 'green')]
-fig = px.imshow(df_Scores, labels={"x": "Model", "y": "Tweet"}, color_continuous_scale = colors, title = "Financial Tweet Sentiment Analysis")
+fig = px.imshow(df_Scores, labels={"x": "Model", "y": "Tweet"}, color_continuous_scale = colors, title = "Movie Review Sentiment Classifer Confusion Matrix") 
 fig.show() 
