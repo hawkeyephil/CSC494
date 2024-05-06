@@ -6,9 +6,9 @@ import NBoWInference as nbow
 import CNNInference as cnn 
 
 #Stock Tweets Sentiment dataset from Hugging Face 
-train_Data, test_Data = datasets.load_dataset("emad12/stock_tweets_sentiment", split = ["train", "test"]) 
+#train_Data, test_Data = datasets.load_dataset("emad12/stock_tweets_sentiment", split = ["train", "test"]) 
 #IMDb dataset --> split into trainning and test sets (25000 reviews each) 
-#train_Data, test_Data = datasets.load_dataset("imdb", split = ["train", "test"])
+train_Data, test_Data = datasets.load_dataset("imdb", split = ["train", "test"])
 
 #Creates a subset of the training data for validation 
 train_Valid_Data = train_Data.train_test_split(test_size = 0.25) 
@@ -17,17 +17,17 @@ valid_Data = train_Valid_Data["test"]
 print(len(train_Data), len(valid_Data), len(test_Data))
 print(valid_Data)
 #Stores and sorts tweets with corresponding sentiment scores in ascending order 
-validation_Data = pd.DataFrame({'tweets': valid_Data["tweet"], 'sentiment': valid_Data["sentiment"]}) 
-#validation_Data = pd.DataFrame({'text': valid_Data["text"], 'sentiment': valid_Data["label"]})
+#validation_Data = pd.DataFrame({'tweets': valid_Data["tweet"], 'sentiment': valid_Data["sentiment"]}) 
+validation_Data = pd.DataFrame({'text': valid_Data["text"], 'sentiment': valid_Data["label"]})
 sorted_Validation_Data = validation_Data.sort_values(by = ['sentiment']) 
 
 #Dataframe to store sentiment scores 
-#metrics = {'Model': [], 'True Positives': [], 'False Positives': [], 'True Negatives': [], 'False Negatives': [], 'Accuracy': [], 'Precision': [], 'Recall': [], 'F1-Score': []}
-metrics = {'Model': [], 'Accuracy': [], 'Precision': [], 'Recall': [], 'F1-Score': [], 
-        'AA': [], 'AB': [], 'AC': [], 
-        'BA': [], 'BB': [], 'BC': [], 
-        'CA': [], 'CB': [], 'CC': []
-        }
+metrics = {'Model': [], 'True Positives': [], 'False Positives': [], 'True Negatives': [], 'False Negatives': [], 'Accuracy': [], 'Precision': [], 'Recall': [], 'F1-Score': []}
+#metrics = {'Model': [], 'Accuracy': [], 'Precision': [], 'Recall': [], 'F1-Score': [], 
+        #'AA': [], 'AB': [], 'AC': [], 
+        #'BA': [], 'BB': [], 'BC': [], 
+        #'CA': [], 'CB': [], 'CC': []
+        #}
 df_Metrics = pd.DataFrame(metrics)
 
 #Accuracy 
@@ -296,13 +296,13 @@ def nonbinary_Sentiment_Predictor(model, application, data):
     return model_Metrics
 
 #Generates performance metrics for each model 
-#df_Metrics = df_Metrics.append(binary_Sentiment_Predictor('Lexicon', 'Harvard-IV', sorted_Validation_Data), ignore_index = 'True') 
-#df_Metrics = df_Metrics.append(binary_Sentiment_Predictor('NBoW', 'General', sorted_Validation_Data), ignore_index = 'True') 
-#df_Metrics = df_Metrics.append(binary_Sentiment_Predictor('CNN', 'General', sorted_Validation_Data), ignore_index = 'True') 
+df_Metrics = df_Metrics.append(binary_Sentiment_Predictor('Lexicon', 'Harvard-IV', sorted_Validation_Data), ignore_index = 'True') 
+df_Metrics = df_Metrics.append(binary_Sentiment_Predictor('NBoW', 'General', sorted_Validation_Data), ignore_index = 'True') 
+df_Metrics = df_Metrics.append(binary_Sentiment_Predictor('CNN', 'General', sorted_Validation_Data), ignore_index = 'True') 
 
-df_Metrics = df_Metrics.append(nonbinary_Sentiment_Predictor('Lexicon', 'LM', sorted_Validation_Data), ignore_index = 'True') 
-df_Metrics = df_Metrics.append(nonbinary_Sentiment_Predictor('NBoW', 'Finance', sorted_Validation_Data), ignore_index = 'True') 
-df_Metrics = df_Metrics.append(nonbinary_Sentiment_Predictor('CNN', 'Finance', sorted_Validation_Data), ignore_index = 'True') 
+#df_Metrics = df_Metrics.append(nonbinary_Sentiment_Predictor('Lexicon', 'LM', sorted_Validation_Data), ignore_index = 'True') 
+#df_Metrics = df_Metrics.append(nonbinary_Sentiment_Predictor('NBoW', 'Finance', sorted_Validation_Data), ignore_index = 'True') 
+#df_Metrics = df_Metrics.append(nonbinary_Sentiment_Predictor('CNN', 'Finance', sorted_Validation_Data), ignore_index = 'True') 
 
 #Saves model performance metrics to a csv file 
 filename = '~/Downloads/ModelMetrics.csv' 
