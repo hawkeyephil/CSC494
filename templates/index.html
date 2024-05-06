@@ -85,13 +85,14 @@
       <div class="container-fluid bg-grey">
         <div class="row">
           <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
-            <span class="glyphicon glyphicon-globe logo slideanim"></span>
+            <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
           </div>
           <div class="col-sm-8">
             <h2>Purpose</h2><br>
-            <h4><strong>GOAL:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <h4><strong>OBJECTIVE:</strong> The aim of this project was to determine if Convolutional Neural Networks can more effectively derive sentiment from text than the traditional Lexicon and Bag of Words models. </h4><br>
+            <p><strong>Key Findings:</strong> Despite a high computational cost involved in training, convolutional neural networks consistently outperform traditional approaches to sentiment classification. 
+              CNNs ability to consider contextual information and automatically learn meaningful features set it apart from traditional methods which treat each word independently. These models capture the nuances of language like negations, sarcasm, and idioms which leads to a higher probability of correct classification. 
+              Results also indicate that CNNs are more robust and capable of generalizing effectively to unseen data. </p>
           </div>
         </div>
       </div>
@@ -103,19 +104,19 @@
         <br>
         <div class="row slideanim">
           <div class="col-sm-4">
-            <span class="glyphicon glyphicon-picture logo-small"></span>
-            <h4>Lexicon</h4>
-            <p>Lorem ipsum dolor sit amet..</p>
+            <span class="glyphicon glyphicon-book logo-small"></span>
+            <h4>Lexicon Based Approach</h4>
+            <p>The Long Standing Dictionary Based Approach</p>
+          </div>
+          <div class="col-sm-4">
+            <span class="	glyphicon glyphicon-briefcase logo-small"></span>
+              <h4>Neural Bag of Words</h4>
+              <p>The First Steps Toward Machine Learning</p>
           </div>
           <div class="col-sm-4">
             <span class="glyphicon glyphicon-picture logo-small"></span>
-              <h4>NBoW</h4>
-              <p>Lorem ipsum dolor sit amet..</p>
-          </div>
-          <div class="col-sm-4">
-            <span class="glyphicon glyphicon-picture logo-small"></span>
-            <h4>CNN</h4>
-            <p>Lorem ipsum dolor sit amet..</p> 
+            <h4>Convolutional Neural Network</h4>
+            <p>A Novel Deep Learning Model for Sentiment Analysis</p> 
           </div>
         </div>
       </div>
