@@ -269,6 +269,39 @@ footer .glyphicon:hover {
     font-size: 20rem;
 } 
 
+td {
+    text-align: center;
+    vertical-align: middle; 
+    font: sans-serif;
+    color: #818181;
+} 
+
+th {
+    text-align: center;
+    vertical-align: middle; 
+    color: #303030; 
+} 
+
+tr:nth-child(odd) {
+    background-color: #8CC152; 
+}
+
+table.table-bordered {
+    border: 2px solid #8CC152; 
+}
+
+table.table-bordered > thead > tr > th {
+    border: 2px solid #8CC152;
+}
+table.table-bordered > tbody > tr > td {
+    border: 2px solid #8CC152;
+} 
+
+table.table-hover tbody tr:hover td {
+    background-color: #A0D468; 
+    color: #fff;
+}
+
 @keyframes slide {
 0% {
     opacity: 0;
@@ -306,4 +339,4 @@ footer .glyphicon:hover {
 .logo {
     font-size: 150px;
 }
-}
+} 
