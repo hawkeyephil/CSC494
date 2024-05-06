@@ -221,9 +221,9 @@
       </div> 
 
 
-    <!--Applications Section-->
-    <div id="applications" class="container-fluid">
-        <h2>More Applications</h2>
+      <!--Applications Section-->
+      <div id="applications" class="container-fluid">
+        <h2>MApplications</h2>
         <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
           <!--Indicators-->
           <ol class="carousel-indicators">
@@ -263,7 +263,7 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-    </div>
+      </div>
 
       <!--Contact Section-->
       <div id="contact" class="container-fluid bg-grey">
@@ -272,24 +272,27 @@
           <div class="col-sm-5">
             <p>Please reach out with insights and inquires</p>
             <p><span class="glyphicon glyphicon-map-marker"></span> Hamden, Connecticut</p>
-            <p><span class="glyphicon glyphicon-phone"></span> +00 0000000000</p>
+            <p><span class="glyphicon glyphicon-phone"></span> (203) 927-4768</p>
             <p><span class="glyphicon glyphicon-envelope"></span> pjcaldarella@quinnipiac.edu</p>
           </div>
-          <div class="col-sm-7 slideanim">
-            <div class="row">
-              <div class="col-sm-6 form-group">
-                <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+
+          <div class="col-sm-7 slideanim"> 
+            <form action="/submit_contact" method="POST">
+              <div class="row">
+                <div class="col-sm-6 form-group">
+                  <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+                </div>
+                <div class="col-sm-6 form-group">
+                  <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+                </div>
               </div>
-              <div class="col-sm-6 form-group">
-                <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-              </div>
-            </div>
-            <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-            <div class="row">
-              <div class="col-sm-12 form-group">
-                <button class="btn btn-default pull-right" type="submit">Send</button>
-              </div>
-            </div>
+              <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+              <div class="row">
+                <div class="col-sm-12 form-group">
+                  <button class="btn btn-default pull-right" type="submit">Send</button>
+                </div>
+              </div> 
+            </form>
           </div>
         </div>
       </div>

@@ -150,6 +150,18 @@ def polarity_score():
         #Return the polarity as JSON to frontend 
         return jsonify({'lexicon_Polarity': lexicon_Polarity, 'nbow_Class': nbow_Class, 'nbow_Probability': nbow_Probability, 'cnn_Class': cnn_Class, 'cnn_Probability': cnn_Probability})
 
+@app.route('/submit_contact', methods=['POST'])
+def submit_contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        comments = request.form.get('comments')
+
+        # Process the data (e.g., save to a database, send an email, etc.)
+        print(email)
+        # Return an appropriate response (e.g., a thank-you message)
+        return render_template('contact.html')
+
 #Starts server and runs the app locally at port 5005
 app.run(host = 'localhost', port = 5005, debug = True) 
 #Starts server and runs the app locally at port 5005 for LAN access  
