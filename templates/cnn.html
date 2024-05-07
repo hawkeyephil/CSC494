@@ -1,0 +1,160 @@
+<!--CNN Page-->
+<!DOCTYPE html> 
+<html lang = "en">
+
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1"> 
+    <title>CNN</title> 
+
+    <!--Sytlesheets/Bootstrap-->
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles.css') }}"> 
+    <!--Fonts-->
+    <link href = "https://fonts.googleapis.com/css?family=Montserrat" rel = "stylesheet" type = "text/css">
+    <link href = "https://fonts.googleapis.com/css?family=Lato" rel = "stylesheet" type = "text/css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!--jQuery Library-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+    <!--Modals/Carousels/Dropdowns--> 
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+</head> 
+
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+    <!--Site Navigation Bar--> 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}">SentAI</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('index') }}">HOME</a></li> 
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#lexicon">Lexicon</a></li>
+                  <li><a href="#nbow">NBoW</a></li>
+                  <li><a href="#Cnn">CNN</a></li> 
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
+                  <li><a href="#marketanalysis">Market Analysis</a></li>
+                  <li><a href="#moviereviews">Movie Reviews</a></li> 
+                </ul>
+              </li> 
+            </ul>
+          </div>
+        </div>
+    </nav> 
+
+    <!--Welcome Banner-->
+    <div class="jumbotron text-center">
+        <h1>CNNs</h1> 
+        <p>A Place to Explore Convolutional Neural Networks</p> 
+    </div> 
+
+    <!--Background Section-->
+    <div id="about" class="container-fluid">
+        <div class="row">
+          <div class="col-sm-7">
+            <h2>Background</h2>
+            <h4>Convolutional Neural Networks are a class of deep learning algorithms primarily used for image recognition but have proven effective for NLP tasks like sentiment analysis.</h4>
+            <p>They utilize layers that apply convolutions on word embeddings (dense vector representations of words that capture their semantic meaning) to capture contextual patterns in text, allowing them to discern complex features such as the sentiment expressed in sentences or documents. 
+                By leveraging their hierarchical feature extraction capabilities, CNNs can identify varying levels of sentiment intensity, making them powerful tools for analyzing emotions in content like movie reviews and social media posts. 
+                This adaptability showcases the versatility of CNNs in handling different types of data beyond their original domain.</p>
+            <br><a href="{{ url_for('sandbox') }}" class="btn btn-default btn-lg custom-button">Try it out!</a>
+          </div>
+          <div class="col-sm-5" style="display: flex; justify-content: center; align-items: center;">
+            <img src="{{ url_for('static', filename = 'imgs/CNNModel.png') }}" alt="Logo" width="325" height="220">
+          </div>
+        </div>
+    </div>
+
+    <!--Architecture Section--> 
+    <div id="Architecture" class="container-fluid"> 
+        <div class="row"> 
+            <div class="col-sm-7">
+                <h2>Architecture</h2>
+                <h4><strong></strong>The following is a descrpition of the CNN architecture used</h4> 
+                <p><strong>Details: </strong>
+                    <ul>
+                        <li>300 dimensions</li>
+                        <li>Sequence Length: 256</li>
+                        <li>300 total Word Embeddings: Pretrained Stanford GloVe with filters of sizes 3, 5, and 7</li>
+                        <li>Filter Stride: 1</li>
+                        <li>Convolutional Layer Activation Function: ReLU</li>
+                        <li>Pooling: Max Pooling</li>
+                        <li>Probability Distribution: Softmax Function</li>
+                        <li>Dropout Rate: 50%</li>
+                        <li>Loss Function: Cross Entropy Loss</li>
+                        <li>Optimizer: Adaptive Moment Estimation</li>
+                    </ul>  
+                </p> 
+            </div> 
+            <div class="col-sm-5" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{{ url_for('static', filename = 'imgs/CNNArchitectureVisual.png') }}" alt="Logo" width="425" height="300">
+            </div>
+        </div>
+    </div>
+    
+    <!--Performance Section-->
+    <div id="performance" class="container-fluid text-center"> 
+        <div class="row">
+            <h2>Performance</h2> 
+            <h4><strong></strong>The following confusion matrices visualize the classification results for each dataset</h4>
+            <div class="col-sm-6" style="justify-content: center; align-items: center;"> 
+                <span>
+                    <img src="{{ url_for('static', filename = 'imgs/FinanceCM.png') }}" alt="Logo" width="300" height="270">
+                </span>
+                <h4>Financial Phrasebank</h4>
+            </div>
+            <div class="col-sm-6" style="justify-content: center; align-items: center;">
+                <span>
+                    <img src="{{ url_for('static', filename = 'imgs/MovieCM.png') }}" alt="Logo" width="300" height="270">
+                </span>
+                <h4>Stanford Large Movie Review</h4>
+            </div>
+        </div>
+    </div>
+
+    <!--Models Section-->
+    <div id="models" class="container-fluid text-center">
+        <h2>More Models</h2>
+        <h4>Explore Alternative Approaches</h4>
+        <div class="row">
+          <div class="col-sm-6"> 
+            <a href="{{ url_for('lexicon') }}">
+                <span class="glyphicon glyphicon-book logo-small"></span>
+                <h4>Lexicon Based Approach</h4>
+            </a>
+            <p>The Long Standing Dictionary Based Approach</p>
+          </div>
+          <div class="col-sm-6">
+            <a href="{{ url_for('lexicon') }}">
+                <span class="glyphicon glyphicon-briefcase logo-small"></span>
+                <h4>Lexicon Based Approach</h4>
+            </a>
+            <p>The First Steps Toward Machine Learning</p>
+          </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+        <a href="#top" title="To Top">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <p>Software is under the GNU General Public License: <a href="https://www.gnu.org/licenses/gpl-3.0.html" title="Visit gnu">www.gnu.org</a></p>
+    </footer>
+
+</body> 

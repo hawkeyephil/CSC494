@@ -27,7 +27,22 @@ def index():
 def sandbox(): 
     #Establishes sentiment score variable for the session 
     #session['lexicon_Polarity'] = 0.0
-    return render_template('sandbox.html')
+    return render_template('sandbox.html') 
+
+#Route to the lexicon page 
+@app.route('/lexicon') 
+def lexicon(): 
+    return render_template('lexicon.html') 
+
+#Route to the nbow page 
+@app.route('/nbow') 
+def nbow(): 
+    return render_template('nbow.html') 
+
+#Route to the cnn page 
+@app.route('/cnn') 
+def cnn(): 
+    return render_template('cnn.html')
 
 #Sandbox sentiment route (this can be phased out now with the js script in place)
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])    

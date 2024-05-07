@@ -38,9 +38,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#lexicon">Lexicon</a></li>
-                  <li><a href="#nbow">NBoW</a></li>
-                  <li><a href="#cnn">CNN</a></li> 
+                  <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                  <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                  <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
                 </ul>
               </li>
               <li><a href="#results">RESULTS</a></li>
@@ -104,19 +104,25 @@
         <br>
         <div class="row slideanim">
           <div class="col-sm-4">
-            <span class="glyphicon glyphicon-book logo-small"></span>
-            <h4>Lexicon Based Approach</h4>
+            <a href="{{ url_for('lexicon') }}">
+              <span class="glyphicon glyphicon-book logo-small"></span>
+              <h4>Lexicon Based Approach</h4>
+            </a>
             <p>The Long Standing Dictionary Based Approach</p>
           </div>
           <div class="col-sm-4">
-            <span class="	glyphicon glyphicon-briefcase logo-small"></span>
+            <a href="{{ url_for('nbow') }}">
+              <span class="glyphicon glyphicon-briefcase logo-small"></span>
               <h4>Neural Bag of Words</h4>
-              <p>The First Steps Toward Machine Learning</p>
+            </a>
+            <p>The First Steps Toward Machine Learning</p>
           </div>
-          <div class="col-sm-4">
-            <span class="glyphicon glyphicon-picture logo-small"></span>
-            <h4>Convolutional Neural Network</h4>
-            <p>A Novel Deep Learning Model for Sentiment Analysis</p> 
+          <div class="col-sm-4"> 
+            <a href="{{ url_for('cnn') }}">
+              <span class="glyphicon glyphicon-picture logo-small"></span> 
+              <h4>Convolutional Neural Network</h4>
+            </a> 
+            <p>A Novel Deep Learning Model for Sentiment Analysis</p>
           </div>
         </div>
       </div>
