@@ -42,7 +42,12 @@ def nbow():
 #Route to the cnn page 
 @app.route('/cnn') 
 def cnn(): 
-    return render_template('cnn.html')
+    return render_template('cnn.html') 
+
+#Route to the market analysis page 
+@app.route('/marketanalysis') 
+def marketanalysis(): 
+    return render_template('marketanalysis.html')
 
 #Sandbox sentiment route (this can be phased out now with the js script in place)
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])    

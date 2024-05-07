@@ -1,0 +1,138 @@
+<!--Market Analysis Page-->
+<!DOCTYPE html> 
+<html lang = "en">
+
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1"> 
+    <title>MarketAnalysis</title> 
+
+    <!--Sytlesheets/Bootstrap-->
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles.css') }}"> 
+    <!--Fonts-->
+    <link href = "https://fonts.googleapis.com/css?family=Montserrat" rel = "stylesheet" type = "text/css">
+    <link href = "https://fonts.googleapis.com/css?family=Lato" rel = "stylesheet" type = "text/css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!--jQuery Library-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+    <!--Modals/Carousels/Dropdowns--> 
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+</head> 
+
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+    <!--Site Navigation Bar--> 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}">SentAI</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('index') }}">HOME</a></li> 
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                    <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                    <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
+                  <li><a href="{{ url_for('marketanalysis') }}">Market Analysis</a></li>
+                </ul>
+              </li> 
+            </ul>
+          </div>
+        </div>
+    </nav> 
+
+    <!--Welcome Banner-->
+    <div class="jumbotron text-center">
+        <h1>Market Analysis</h1> 
+        <p>Finance and Economics Applications Explored</p> 
+    </div> 
+
+    <!--Application Section-->
+    <div id="application" class="container-fluid">
+        <div class="row">
+          <div class="col-sm-8">
+            <h2>Applications</h2>
+            <p>
+                Sentiment analysis models can be applied to a wide variety of text which spans across domains. The fields of economics and finance 
+                offer opportunities to utilize sentiment analysis technology. Accurate sentiment classification models applications extend from insights into 
+                central banker withheld information to Tweet based stock movement predicting. 
+            </p>
+            <br><a href="{{ url_for('sandbox') }}" class="btn btn-default btn-lg custom-button">Try it out!</a>
+          </div>
+          <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;"> 
+            <span class="glyphicon glyphicon-signal logo"></span>
+          </div>
+        </div>
+    </div>
+
+    <!--Stock Section--> 
+    <div id="stock" class="container-fluid"> 
+        <div class="row"> 
+            <div class="col-sm-8">
+                <h2>Stock Prediction</h2>
+                <h4><strong></strong>Aggregated X data shows promise for sentiment based stock forecasting</h4> 
+                <p><strong>Details: </strong> 
+                    The figure depicts daily aggregated tweet sentiment scores for each model overlaid onto the closing price for Apple Inc over the course of a week. 
+                    Two key determinants of demand are consumer tastes and preferences and expectations. The consumer outlook toward a company's products and services is a key component of demand for those goods. 
+                    Demand for what a company produces is reflected in the valuation of the company. Similarly, people's expectations are strong determinants of demand. An anticipated increase in price will spur demand now. 
+                    The sentiment analysis models developed can extract public taste and expectations effectively. 
+                </p>
+                <p>
+                    This figure was constructed using dozens of tweets pulled daily from X as input into each sentiment analysis model. 
+                    An average of all Tweet scores was calculated for each day and plotted against the closing price of Apple Inc. The convolutional neural network model predictions align well with the closing price of the stock. 
+                    This indicates that CNNs might be capable of predicting changes in a company's valuation based on publicly available X data.  
+                </p> 
+            </div> 
+            <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{{ url_for('static', filename = 'imgs/AAPLVisualization.png') }}" alt="Logo" width="340" height="220">
+            </div>
+        </div>
+    </div>
+    
+    <!--Fed Section--> 
+    <div id="fed" class="container-fluid"> 
+        <div class="row"> 
+            <div class="col-sm-8">
+                <h2>Federal Reserve Analysis</h2>
+                <h4><strong></strong>Sentiment derived from Fed Statements yields insights into the economy</h4> 
+                <p><strong>Details: </strong> 
+                    The figure overlays calculated Federal Reserve statement sentiment using the described convolutional neural network model over U.S. recession periods. 
+                    The U.S. central bank has a dual mandate: stable prices and maximum employment. It achieves price stability and maximum employment by setting the Federal Funds Rate which is announced during each of its eight annual meetings. 
+                    Recessions are informally defined as two consecutive quarters of contracting gross domestic product. Although the Fed does not target growth in output for the country, inflation and employment are closely related. 
+                </p>
+                <p> 
+                    The figure shows that the predicted central bank sentiment often coincides with the business cycle. Seemingly random drops in sentiment during 2004, 2011 - 2013, 2017 - 2018, and 2023 all are times of increasing levels of inflation beyond the 2% target set by the Fed. 
+                    Also, the unemployment rate following the Dot-com Bubble and the Great Recession were at 10- and 30-year highs, respectively. These periods of high inflation and unemployment are visualized through the sentiment derived from the Federal Reserve statements. 
+                    This illustrates how sentiment analysis tools can be used to construct more effective economic models.  
+                </p> 
+            </div> 
+            <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{{ url_for('static', filename = 'imgs/CNNFedVisualization.png') }}" alt="Logo" width="400" height="250">
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+        <a href="#top" title="To Top">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <p>Software is under the GNU General Public License: <a href="https://www.gnu.org/licenses/gpl-3.0.html" title="Visit gnu">www.gnu.org</a></p>
+    </footer>
+
+</body> 
