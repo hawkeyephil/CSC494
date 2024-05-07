@@ -1,0 +1,133 @@
+<!--Lexicon Page-->
+<!DOCTYPE html> 
+<html lang = "en">
+
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1"> 
+    <title>Lexicon</title> 
+
+    <!--Sytlesheets/Bootstrap-->
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles.css') }}"> 
+    <!--Fonts-->
+    <link href = "https://fonts.googleapis.com/css?family=Montserrat" rel = "stylesheet" type = "text/css">
+    <link href = "https://fonts.googleapis.com/css?family=Lato" rel = "stylesheet" type = "text/css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!--jQuery Library-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+    <!--Modals/Carousels/Dropdowns--> 
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+</head> 
+
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+    <!--Site Navigation Bar--> 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}">SentAI</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('index') }}">HOME</a></li> 
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                    <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                    <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
+                  <li><a href="{{ url_for('marketanalysis') }}">Market Analysis</a></li>
+                </ul>
+              </li> 
+            </ul>
+          </div>
+        </div>
+    </nav> 
+
+    <!--Welcome Banner-->
+    <div class="jumbotron text-center">
+        <h1>Lexicon Based Approach</h1> 
+        <p>A Place to Explore The Dictionary Based Approach</p> 
+    </div> 
+
+    <!--Background Section-->
+    <div id="about" class="container-fluid">
+        <div class="row">
+          <div class="col-sm-8">
+            <h2>Background</h2>
+            <h4>The traditional method for sentiment analysis employs sentiment dictionaries to classify document level polarity</h4>
+            <p>It employs human annotated sentiment dictionaries that have preassigned sentiment scores for nouns and adjectives. General sentiment dictionaries such as the Harvard-IV and domain specific dictionaries like the Loughran and McDonald (finance/economics) have been constructed. 
+                Words are classified as either positive or negative. After prepocessing text with tokenization, stop word removal, and stemming, the tone of a document is determined by dividing the difference of the positive and negative words over the total number of classified words. This technique is accessible and often implemented by novices. 
+                However, due to its simplistic nature, it is only moderately effective. This approach can only classify document level sentiment and relies on human annotated dictionaries to perform lookups of words. 
+                It also ignores the nuances of human language. It cannot consider words in context or identify sarcasm, irony, or negation. The inability of the dictionary method to identify these key aspects of writing hampers its accuracy in practice. </p>
+            <br><a href="{{ url_for('sandbox') }}" class="btn btn-default btn-lg custom-button">Try it out!</a>
+          </div>
+          <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+            <span class="glyphicon glyphicon-book logo"></span>
+        </div>
+        </div>
+    </div>
+    
+    <!--Performance Section-->
+    <div id="performance" class="container-fluid text-center"> 
+        <div class="row">
+            <h2>Performance</h2> 
+            <h4><strong></strong>The following confusion matrices visualize the classification results for each dataset</h4>
+            <div class="col-sm-6" style="justify-content: center; align-items: center;"> 
+                <span>
+                    <img src="{{ url_for('static', filename = 'imgs/FinanceCMDict.png') }}" alt="Logo" width="300" height="270">
+                </span>
+                <h4>Financial Phrasebank</h4>
+            </div>
+            <div class="col-sm-6" style="justify-content: center; align-items: center;">
+                <span>
+                    <img src="{{ url_for('static', filename = 'imgs/MovieCMDict.png') }}" alt="Logo" width="300" height="270">
+                </span>
+                <h4>Stanford Large Movie Review</h4>
+            </div>
+        </div>
+    </div>
+
+    <!--Models Section-->
+    <div id="models" class="container-fluid text-center">
+        <h2>More Models</h2>
+        <h4>Explore Alternative Approaches</h4>
+        <div class="row">
+            <div class="col-sm-6"> 
+                <a href="{{ url_for('nbow') }}">
+                    <span class="glyphicon glyphicon-briefcase logo-small"></span>
+                    <h4>Neural Bag of Words</h4>
+                </a>
+                <p>The First Steps Toward Machine Learning</p>
+              </div>
+              <div class="col-sm-6">
+                <a href="{{ url_for('cnn') }}">
+                    <span class="glyphicon glyphicon-briefcase logo-small"></span>
+                    <h4>Convolutional Neural Network</h4>
+                </a>
+                <p>A Novel Deep Learning Model for Sentiment Analysis</p>
+              </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+        <a href="#top" title="To Top">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <p>Software is under the GNU General Public License: <a href="https://www.gnu.org/licenses/gpl-3.0.html" title="Visit gnu">www.gnu.org</a></p>
+    </footer>
+
+</body> 

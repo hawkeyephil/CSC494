@@ -38,19 +38,18 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#lexicon">Lexicon</a></li>
-                  <li><a href="#nbow">NBoW</a></li>
-                  <li><a href="#cnn">CNN</a></li> 
+                  <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                  <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                  <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
                 </ul>
               </li>
-              <li><a href="#performance">PERFORMANCE</a></li>
+              <li><a href="#results">RESULTS</a></li>
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">APPLICATIONS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
-                  <li><a href="#marketanalysis">Market Analysis</a></li>
-                  <li><a href="#moviereviews">Movie Reviews</a></li> 
+                  <li><a href="{{ url_for('marketanalysis') }}">Market Analysis</a></li>
                 </ul>
               </li>
               <li><a href="#contact">CONTACT</a></li> 
@@ -69,28 +68,30 @@
       <div id="about" class="container-fluid">
         <div class="row">
           <div class="col-sm-8">
-            <h2>About this Project</h2><br>
-            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <h2>About this Project</h2>
+            <h4>This Project Explores the Applications of Convolutional Neural Networks for Sentiment Analysis Tasks</h4>
+            <p>This work is the culmination of a year long senior thesis for attainment of a Bachelors of Arts in Computer Science from The School of Computing and Engineering at Quinnipiac University. The project has been developed by <a href="https://www.linkedin.com/in/philipcaldarella">Philip Caldarella</a> and advised by Professor <a href="https://www.qu.edu/faculty-and-staff/jonathan-blake/">Jonathan Blake</a>. </p>
             <br><button class="btn btn-default btn-lg custom-button" onclick="window.location.href='#contact'">Reach Out!</button>
           </div>
           <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
-            <span class="glyphicon glyphicon-signal logo"></span>
+            <img src="{{ url_for('static', filename = 'imgs/QUSeal.png') }}" alt="Logo" width="300" height="300">
           </div>
         </div>
-      </div>
+      </div> 
       
       <!--Purpose Section-->
       <div class="container-fluid bg-grey">
-        <div class="row">
+        <div class="row" style="align-items: center;">
           <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
-            <span class="glyphicon glyphicon-globe logo slideanim"></span>
+            <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
           </div>
           <div class="col-sm-8">
-            <h2>Purpose</h2><br>
-            <h4><strong>GOAL:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <h2>Purpose</h2>
+            <h4><strong>OBJECTIVE:</strong> The aim of this project was to determine if Convolutional Neural Networks can more effectively derive sentiment from text than the traditional models. </h4>
+            <p><strong>Details:</strong> Sentiment analysis has become a key subset of natural language processing. Various approaches have been employed to capture sentiment from text with high levels of accuracy. 
+              The traditional lexicon-based approach has proven moderately effective but differs widely by application. The accuracy of this method varies extensively due to the reliance on dictionaries with pre-assigned sentiment values. 
+              Domain specific lexicons tend to yield higher levels of accuracy but are limited in scope to the field the dictionaries capture and a loss of word context. Advancements in the accessibility of machine learning technology, namely neural networks, offer a modern and more effective approach. 
+              This project trained convolutional neural networks for sentiment analysis utilizing the corpora Stanford Large Movie Review Dataset and the Financial Phrasebank with the PyTorch framework. The objective of this study was to compare the accuracy of convolutional neural networks in deriving document level sentiment to a traditional lexicon-based approach and neural bag of words benchmark. </p>
           </div>
         </div>
       </div>
@@ -102,57 +103,132 @@
         <br>
         <div class="row slideanim">
           <div class="col-sm-4">
-            <span class="glyphicon glyphicon-picture logo-small"></span>
-            <h4>Lexicon</h4>
-            <p>Lorem ipsum dolor sit amet..</p>
+            <a href="{{ url_for('lexicon') }}">
+              <span class="glyphicon glyphicon-book logo-small"></span>
+              <h4>Lexicon Based Approach</h4>
+            </a>
+            <p>The Long Standing Dictionary Based Approach</p>
           </div>
           <div class="col-sm-4">
-            <span class="glyphicon glyphicon-picture logo-small"></span>
-              <h4>NBoW</h4>
-              <p>Lorem ipsum dolor sit amet..</p>
+            <a href="{{ url_for('nbow') }}">
+              <span class="glyphicon glyphicon-briefcase logo-small"></span>
+              <h4>Neural Bag of Words</h4>
+            </a>
+            <p>The First Steps Toward Machine Learning</p>
           </div>
-          <div class="col-sm-4">
-            <span class="glyphicon glyphicon-picture logo-small"></span>
-            <h4>CNN</h4>
-            <p>Lorem ipsum dolor sit amet..</p> 
+          <div class="col-sm-4"> 
+            <a href="{{ url_for('cnn') }}">
+              <span class="glyphicon glyphicon-picture logo-small"></span> 
+              <h4>Convolutional Neural Network</h4>
+            </a> 
+            <p>A Novel Deep Learning Model for Sentiment Analysis</p>
           </div>
         </div>
       </div>
 
       
-      <!--Performance Section-->
-      <br><div id="performance" class="container-fluid bg-grey">
-        <h2>Performance</h2><br>
-        <h4>Key Accuracy and Performance Findings</h4>
-        <div class="row text-center slideanim">
-          <div class="col-sm-4">
-            <div class="thumbnail">
-              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
-              <p><strong>Accuracy</strong></p>
-              <p>Accuracy matrics</p>
+      <!--Results Section--> 
+      <br><div id="results" class="container-fluid bg-grey"> 
+        <div class="row"> 
+          <div class="col-sm-6">
+            <h2>Results</h2>
+            <h4><strong>Key Findings: </strong>Results indicate that Convolutional Neural Networks are capable of reaching higher levels of accuracy than traditional approaches</h4> 
+            <p><strong>Details: </strong>The CNN models outperformed the Dictionary and NBoW baselines. The Stanford Large Movie Review and Financial Phrasebank datasets reached a classification accuracy of 92% and 86% on validation data, respectively. 
+              Using macro averaging, the precision and recall metrics were calculated. The CNN models achieved the highest F1-Scores which indicates their ability to correctly predict all classes. 
+            </p> 
+            <p>
+              For binary classification, the CNN trained on the Stanford Large Movie Review achieved 91% and 92% accuracy at predicting the positive and negative class, respectively. 
+              For multiclass classification, the CNN trained on the Financial Phrasebank predicted the positive, neutral, and negative classes correctly 95%, 68%, and 96% of the time, respectively. 
+              Despite lower effectiveness at classifying neutral sentiment, the model still eclipsed the Neural Bag of Words baseline by multiple percentage points for each class. 
+            </p>
+          </div> 
+          <div class="col-sm-6" style="display: flex; justify-content: center; align-items: center;">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Dataset</th>
+                    <th>Model</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1 Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Movie Reviews</td>
+                    <td>Harvard-IV Dictionary</td>
+                    <td>0.65</td>
+                    <td>0.61</td>
+                    <td>0.81</td>
+                    <td>0.70</td>
+                  </tr> 
+                  <tr>
+                    <td>Movie Reviews</td>
+                    <td>NBoW</td>
+                    <td>0.86</td>
+                    <td>0.86</td>
+                    <td>0.85</td>
+                    <td>0.86</td>
+                  </tr>
+                  <tr>
+                    <td>Movie Reviews</td>
+                    <td>CNN</td>
+                    <td>0.92</td>
+                    <td>0.92</td>
+                    <td>0.91</td>
+                    <td>0.91</td>
+                  </tr>
+                  <tr>
+                    <td>Financial Phrasebank</td>
+                    <td>LM Dictionary</td>
+                    <td>0.57</td>
+                    <td>0.64</td>
+                    <td>0.58</td>
+                    <td>0.61</td>
+                  </tr>
+                  <tr>
+                    <td>Financial Phrasebank</td>
+                    <td>NBoW</td>
+                    <td>0.86</td>
+                    <td>0.85</td>
+                    <td>0.85</td>
+                    <td>0.85</td>
+                  </tr> 
+                  <tr>
+                    <td>Financial Phrasebank</td>
+                    <td>CNN</td>
+                    <td>0.86</td>
+                    <td>0.87</td>
+                    <td>0.86</td>
+                    <td>0.86</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="thumbnail">
-              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
-              <p><strong>Speed</strong></p>
-              <p>Efficiency metrics</p>
-            </div>
+        </div><br>
+
+        <div class="row"> 
+          <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+            <span class = "glyphicon glyphicon-dashboard logo"></span>
           </div>
-          <div class="col-sm-4">
-            <div class="thumbnail">
-              <img src="{{ url_for('static', filename = 'imgs/SentimentAnalysisToolLogo.png') }}" alt="Logo" width="400" height="300">
-              <p><strong>Capability</strong></p>
-              <p>Capability metrics</p>
-            </div>
+          <div class="col-sm-8">
+            <p><strong>Conclusions & Next Steps:</strong> Despite a high computational cost involved in training, convolutional neural networks consistently outperform traditional approaches to sentiment classification. 
+              CNNs ability to consider contextual information and automatically learn meaningful features set it apart from traditional methods which treat each word independently. 
+              These models capture the nuances of language like negations, sarcasm, and idioms which leads to a higher probability of correct classification. Results also indicate that CNNs are more robust and capable of generalizing effectively to unseen data. A key next step for this project is to integrate the X API into the web application. 
+              The ambition is to build a tool for users to quickly survey sentiment for a topic of their choosing utilizing data pulled directly from X.</p>
           </div>
+        </div>
+          
         </div><br> 
       </div> 
 
 
-    <!--Applications Section-->
-    <div id="applications" class="container-fluid">
-        <h2>More Applications</h2>
+      <!--Applications Section-->
+      <div id="applications" class="container-fluid">
+        <h2>Applications</h2>
         <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
           <!--Indicators-->
           <ol class="carousel-indicators">
@@ -192,7 +268,7 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-    </div>
+      </div>
 
       <!--Contact Section-->
       <div id="contact" class="container-fluid bg-grey">
@@ -201,24 +277,27 @@
           <div class="col-sm-5">
             <p>Please reach out with insights and inquires</p>
             <p><span class="glyphicon glyphicon-map-marker"></span> Hamden, Connecticut</p>
-            <p><span class="glyphicon glyphicon-phone"></span> +00 0000000000</p>
+            <p><span class="glyphicon glyphicon-phone"></span> (203) 927-4768</p>
             <p><span class="glyphicon glyphicon-envelope"></span> pjcaldarella@quinnipiac.edu</p>
           </div>
-          <div class="col-sm-7 slideanim">
-            <div class="row">
-              <div class="col-sm-6 form-group">
-                <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+
+          <div class="col-sm-7 slideanim"> 
+            <form action="/submit_contact" method="POST">
+              <div class="row">
+                <div class="col-sm-6 form-group">
+                  <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+                </div>
+                <div class="col-sm-6 form-group">
+                  <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+                </div>
               </div>
-              <div class="col-sm-6 form-group">
-                <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-              </div>
-            </div>
-            <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-            <div class="row">
-              <div class="col-sm-12 form-group">
-                <button class="btn btn-default pull-right" type="submit">Send</button>
-              </div>
-            </div>
+              <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+              <div class="row">
+                <div class="col-sm-12 form-group">
+                  <button class="btn btn-default pull-right" type="submit">Send</button>
+                </div>
+              </div> 
+            </form>
           </div>
         </div>
       </div>

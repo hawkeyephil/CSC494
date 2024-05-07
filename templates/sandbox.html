@@ -1,11 +1,11 @@
-<!--Sandbox Page-->
+<!--Contact Submission Page-->
 <!DOCTYPE html> 
 <html lang = "en">
 
 <head>
     <meta charset = "UTF-8">
     <meta name = "viewport" content = "width=device-width, initial-scale=1"> 
-    <title>Model Sandbox</title> 
+    <title>Contact Submission</title> 
 
     <!--Sytlesheets/Bootstrap-->
     <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
@@ -20,7 +20,7 @@
     <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
 </head> 
 
-<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60"> 
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="60"> 
     <!--Site Navigation Bar--> 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -39,9 +39,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#lexicon">Lexicon</a></li>
-                  <li><a href="#nbow">NBoW</a></li>
-                  <li><a href="#rnn">RNN</a></li> 
+                  <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                  <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                  <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
                 </ul>
               </li>
               <li class="dropdown">
@@ -49,8 +49,7 @@
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ url_for('sandbox') }}">Sandbox</a></li>
-                  <li><a href="#marketanalysis">Market Analysis</a></li>
-                  <li><a href="#moviereviews">Movie Reviews</a></li> 
+                  <li><a href="{{ url_for('marketanalysis') }}">Market Analysis</a></li>
                 </ul>
               </li> 
             </ul>
@@ -141,6 +140,13 @@
           </div>
         </div>
       </div>
+
+      <footer class="container-fluid text-center">
+        <a href="#top" title="To Top">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <p>Software is under the GNU General Public License: <a href="https://www.gnu.org/licenses/gpl-3.0.html" title="Visit gnu">www.gnu.org</a></p>
+      </footer>
 
     <!--js--> 
     <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>

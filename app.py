@@ -2,9 +2,9 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session 
 from dotenv import load_dotenv 
 import os
-import machine_learning.LexiconInference as dict 
-import machine_learning.NBoWInference as nbow 
-import machine_learning.CNNInference as cnn
+import machine_learning.LexiconInference as dict_Inference 
+import machine_learning.NBoWInference as nbow_Inference
+import machine_learning.CNNInference as cnn_Inference
 
 #Gives each file a unique name 
 app = Flask(__name__) 
@@ -27,7 +27,27 @@ def index():
 def sandbox(): 
     #Establishes sentiment score variable for the session 
     #session['lexicon_Polarity'] = 0.0
-    return render_template('sandbox.html')
+    return render_template('sandbox.html') 
+
+#Route to the lexicon page 
+@app.route('/lexicon') 
+def lexicon(): 
+    return render_template('lexicon.html') 
+
+#Route to the nbow page 
+@app.route('/nbow') 
+def nbow(): 
+    return render_template('nbow.html') 
+
+#Route to the cnn page 
+@app.route('/cnn') 
+def cnn(): 
+    return render_template('cnn.html') 
+
+#Route to the market analysis page 
+@app.route('/marketanalysis') 
+def marketanalysis(): 
+    return render_template('marketanalysis.html')
 
 #Sandbox sentiment route (this can be phased out now with the js script in place)
 @app.route('/analyze_sentiment', methods=['GET', 'POST'])    
@@ -43,14 +63,13 @@ def analyze_sentiment():
     if request.method == 'POST':
         #Fetches the user input from the textarea
         user_input = request.form['user_text'] 
-        #print(user_input) 
 
         if not user_input: 
             print("No User Input") 
         else: 
             if application == 'Finance':      
                 #Analyze the sentiment using the dictionary approach 
-                lexicon_Scores = dict.sentiment_analyzer(user_input, 'LM') 
+                lexicon_Scores = dict_Inference.sentiment_analyzer(user_input, 'LM') 
                 #Extract the polarity and subjectivity scores 
                 lexicon_Polarity = format(lexicon_Scores['polarity'], '.2f') 
                 #subjectivity = format(lexicon_Scores['subjectivity'], '.2f')
@@ -59,10 +78,10 @@ def analyze_sentiment():
                 elif float(lexicon_Polarity) < 0.00: 
                     lexicon_Class = 'Negative' 
                 else: 
-                    lexicon_Class = 'Neutral'
-
+                    lexicon_Class = 'Neutral' 
+                
                 #Extract the sentiment using the NBoW model 
-                nbow_Scores = nbow.predict_Sentiment(user_input, application) 
+                nbow_Scores = nbow_Inference.predict_Sentiment(user_input, application) 
                 print('NBoW Model Selected')
                 print(nbow_Scores)
                 if nbow_Scores[0] == 2: 
@@ -74,7 +93,7 @@ def analyze_sentiment():
                 nbow_Probability = nbow_Scores[1]
                             
                 #Extract the sentiment using the CNN model 
-                cnn_Scores = cnn.predict_Sentiment(user_input, application)
+                cnn_Scores = cnn_Inference.predict_Sentiment(user_input, application)
                 print('CNN Model Selected') 
                 print(cnn_Scores)
                 if cnn_Scores[0] == 2: 
@@ -86,7 +105,7 @@ def analyze_sentiment():
                 cnn_Probability = cnn_Scores[1]
             elif application == 'General':
                 #Analyze the sentiment using the dictionary approach 
-                lexicon_Scores = dict.sentiment_analyzer(user_input, 'Harvard-IV') 
+                lexicon_Scores = dict_Inference.sentiment_analyzer(user_input, 'Harvard-IV') 
                 #Extract the polarity and subjectivity scores 
                 lexicon_Polarity = format(lexicon_Scores['polarity'], '.2f') 
                 print(lexicon_Polarity)
@@ -99,7 +118,7 @@ def analyze_sentiment():
                     lexicon_Class = 'Neutral'
 
                 #Extract the sentiment using the NBoW model 
-                nbow_Scores = nbow.predict_Sentiment(user_input, application) 
+                nbow_Scores = nbow_Inference.predict_Sentiment(user_input, application) 
                 print('NBoW Model Selected') 
                 print(nbow_Scores)
                 if nbow_Scores[0] == 1: 
@@ -113,7 +132,7 @@ def analyze_sentiment():
                 print(nbow_Probability) 
 
                 #Extract the sentiment using the CNN model 
-                cnn_Scores = cnn.predict_Sentiment(user_input, application)
+                cnn_Scores = cnn_Inference.predict_Sentiment(user_input, application)
                 print('CNN Model Selected')
                 print(cnn_Scores)
                 if cnn_Scores[0] == 1: 
@@ -150,10 +169,22 @@ def polarity_score():
         #Return the polarity as JSON to frontend 
         return jsonify({'lexicon_Polarity': lexicon_Polarity, 'nbow_Class': nbow_Class, 'nbow_Probability': nbow_Probability, 'cnn_Class': cnn_Class, 'cnn_Probability': cnn_Probability})
 
+@app.route('/submit_contact', methods=['POST'])
+def submit_contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        comments = request.form.get('comments')
+
+        # Process the data (e.g., save to a database, send an email, etc.)
+        print(email)
+        # Return an appropriate response (e.g., a thank-you message)
+        return render_template('contact.html')
+
 #Starts server and runs the app locally at port 5005
-app.run(host = 'localhost', port = 5005, debug = True) 
+#app.run(host = 'localhost', port = 5005, debug = True) 
 #Starts server and runs the app locally at port 5005 for LAN access  
-#app.run(host = '0.0.0.0', port = 5005, debug = True) 
+app.run(host = '0.0.0.0', port = 5005, debug = True) 
 
 
 
