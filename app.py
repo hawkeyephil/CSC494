@@ -2,9 +2,9 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session 
 from dotenv import load_dotenv 
 import os
-import machine_learning.LexiconInference as dict 
-import machine_learning.NBoWInference as nbow 
-import machine_learning.CNNInference as cnn
+import machine_learning.LexiconInference as dict_Inference 
+import machine_learning.NBoWInference as nbow_Inference
+import machine_learning.CNNInference as cnn_Inference
 
 #Gives each file a unique name 
 app = Flask(__name__) 
@@ -63,14 +63,13 @@ def analyze_sentiment():
     if request.method == 'POST':
         #Fetches the user input from the textarea
         user_input = request.form['user_text'] 
-        #print(user_input) 
 
         if not user_input: 
             print("No User Input") 
         else: 
             if application == 'Finance':      
                 #Analyze the sentiment using the dictionary approach 
-                lexicon_Scores = dict.sentiment_analyzer(user_input, 'LM') 
+                lexicon_Scores = dict_Inference.sentiment_analyzer(user_input, 'LM') 
                 #Extract the polarity and subjectivity scores 
                 lexicon_Polarity = format(lexicon_Scores['polarity'], '.2f') 
                 #subjectivity = format(lexicon_Scores['subjectivity'], '.2f')
@@ -79,10 +78,10 @@ def analyze_sentiment():
                 elif float(lexicon_Polarity) < 0.00: 
                     lexicon_Class = 'Negative' 
                 else: 
-                    lexicon_Class = 'Neutral'
-
+                    lexicon_Class = 'Neutral' 
+                
                 #Extract the sentiment using the NBoW model 
-                nbow_Scores = nbow.predict_Sentiment(user_input, application) 
+                nbow_Scores = nbow_Inference.predict_Sentiment(user_input, application) 
                 print('NBoW Model Selected')
                 print(nbow_Scores)
                 if nbow_Scores[0] == 2: 
@@ -94,7 +93,7 @@ def analyze_sentiment():
                 nbow_Probability = nbow_Scores[1]
                             
                 #Extract the sentiment using the CNN model 
-                cnn_Scores = cnn.predict_Sentiment(user_input, application)
+                cnn_Scores = cnn_Inference.predict_Sentiment(user_input, application)
                 print('CNN Model Selected') 
                 print(cnn_Scores)
                 if cnn_Scores[0] == 2: 
@@ -106,7 +105,7 @@ def analyze_sentiment():
                 cnn_Probability = cnn_Scores[1]
             elif application == 'General':
                 #Analyze the sentiment using the dictionary approach 
-                lexicon_Scores = dict.sentiment_analyzer(user_input, 'Harvard-IV') 
+                lexicon_Scores = dict_Inference.sentiment_analyzer(user_input, 'Harvard-IV') 
                 #Extract the polarity and subjectivity scores 
                 lexicon_Polarity = format(lexicon_Scores['polarity'], '.2f') 
                 print(lexicon_Polarity)
@@ -119,7 +118,7 @@ def analyze_sentiment():
                     lexicon_Class = 'Neutral'
 
                 #Extract the sentiment using the NBoW model 
-                nbow_Scores = nbow.predict_Sentiment(user_input, application) 
+                nbow_Scores = nbow_Inference.predict_Sentiment(user_input, application) 
                 print('NBoW Model Selected') 
                 print(nbow_Scores)
                 if nbow_Scores[0] == 1: 
@@ -133,7 +132,7 @@ def analyze_sentiment():
                 print(nbow_Probability) 
 
                 #Extract the sentiment using the CNN model 
-                cnn_Scores = cnn.predict_Sentiment(user_input, application)
+                cnn_Scores = cnn_Inference.predict_Sentiment(user_input, application)
                 print('CNN Model Selected')
                 print(cnn_Scores)
                 if cnn_Scores[0] == 1: 
