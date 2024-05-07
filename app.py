@@ -163,9 +163,9 @@ def submit_contact():
         return render_template('contact.html')
 
 #Starts server and runs the app locally at port 5005
-app.run(host = 'localhost', port = 5005, debug = True) 
+#app.run(host = 'localhost', port = 5005, debug = True) 
 #Starts server and runs the app locally at port 5005 for LAN access  
-#app.run(host = '0.0.0.0', port = 5005, debug = True) 
+app.run(host = '0.0.0.0', port = 5005, debug = True) 
 
 
 
