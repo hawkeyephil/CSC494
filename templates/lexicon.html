@@ -39,9 +39,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#lexicon">Lexicon</a></li>
-                  <li><a href="#nbow">NBoW</a></li>
-                  <li><a href="#rnn">RNN</a></li> 
+                    <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                    <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                    <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
                 </ul>
               </li>
               <li class="dropdown">
@@ -60,51 +60,25 @@
 
     <!--Welcome Banner-->
     <div class="jumbotron text-center">
-        <h1>CNNs</h1> 
-        <p>A Place to Explore Convolutional Neural Networks</p> 
+        <h1>Lexicon Based Approach</h1> 
+        <p>A Place to Explore The Dictionary Based Approach</p> 
     </div> 
 
     <!--Background Section-->
     <div id="about" class="container-fluid">
         <div class="row">
-          <div class="col-sm-7">
+          <div class="col-sm-8">
             <h2>Background</h2>
-            <h4>Convolutional Neural Networks are a class of deep learning algorithms primarily used for image recognition but have proven effective for NLP tasks like sentiment analysis.</h4>
-            <p>They utilize layers that apply convolutions on word embeddings (dense vector representations of words that capture their semantic meaning) to capture contextual patterns in text, allowing them to discern complex features such as the sentiment expressed in sentences or documents. 
-                By leveraging their hierarchical feature extraction capabilities, CNNs can identify varying levels of sentiment intensity, making them powerful tools for analyzing emotions in content like movie reviews and social media posts. 
-                This adaptability showcases the versatility of CNNs in handling different types of data beyond their original domain.</p>
+            <h4>The traditional method for sentiment analysis employs sentiment dictionaries to classify document level polarity</h4>
+            <p>It employs human annotated sentiment dictionaries that have preassigned sentiment scores for nouns and adjectives. General sentiment dictionaries such as the Harvard-IV and domain specific dictionaries like the Loughran and McDonald (finance/economics) have been constructed. 
+                Words are classified as either positive or negative. After prepocessing text with tokenization, stop word removal, and stemming, the tone of a document is determined by dividing the difference of the positive and negative words over the total number of classified words. This technique is accessible and often implemented by novices. 
+                However, due to its simplistic nature, it is only moderately effective. This approach can only classify document level sentiment and relies on human annotated dictionaries to perform lookups of words. 
+                It also ignores the nuances of human language. It cannot consider words in context or identify sarcasm, irony, or negation. The inability of the dictionary method to identify these key aspects of writing hampers its accuracy in practice. </p>
             <br><a href="{{ url_for('sandbox') }}" class="btn btn-default btn-lg custom-button">Try it out!</a>
           </div>
-          <div class="col-sm-5" style="display: flex; justify-content: center; align-items: center;">
-            <img src="{{ url_for('static', filename = 'imgs/CNNModel.png') }}" alt="Logo" width="325" height="220">
-          </div>
+          <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+            <span class="glyphicon glyphicon-book logo"></span>
         </div>
-    </div>
-
-    <!--Architecture Section--> 
-    <div id="Architecture" class="container-fluid"> 
-        <div class="row"> 
-            <div class="col-sm-7">
-                <h2>Architecture</h2>
-                <h4><strong></strong>The following is a descrpition of the CNN architecture used</h4> 
-                <p><strong>Details: </strong>
-                    <ul>
-                        <li>300 dimensions</li>
-                        <li>Sequence Length: 256</li>
-                        <li>300 total Word Embeddings: Pretrained Stanford GloVe with filters of sizes 3, 5, and 7</li>
-                        <li>Filter Stride: 1</li>
-                        <li>Convolutional Layer Activation Function: ReLU</li>
-                        <li>Pooling: Max Pooling</li>
-                        <li>Probability Distribution: Softmax Function</li>
-                        <li>Dropout Rate: 50%</li>
-                        <li>Loss Function: Cross Entropy Loss</li>
-                        <li>Optimizer: Adaptive Moment Estimation</li>
-                    </ul>  
-                </p> 
-            </div> 
-            <div class="col-sm-5" style="display: flex; justify-content: center; align-items: center;">
-                <img src="{{ url_for('static', filename = 'imgs/CNNArchitectureVisual.png') }}" alt="Logo" width="425" height="300">
-            </div>
         </div>
     </div>
     
@@ -115,13 +89,13 @@
             <h4><strong></strong>The following confusion matrices visualize the classification results for each dataset</h4>
             <div class="col-sm-6" style="justify-content: center; align-items: center;"> 
                 <span>
-                    <img src="{{ url_for('static', filename = 'imgs/FinanceCM.png') }}" alt="Logo" width="300" height="270">
+                    <img src="{{ url_for('static', filename = 'imgs/FinanceCMDict.png') }}" alt="Logo" width="300" height="270">
                 </span>
                 <h4>Financial Phrasebank</h4>
             </div>
             <div class="col-sm-6" style="justify-content: center; align-items: center;">
                 <span>
-                    <img src="{{ url_for('static', filename = 'imgs/MovieCM.png') }}" alt="Logo" width="300" height="270">
+                    <img src="{{ url_for('static', filename = 'imgs/MovieCMDict.png') }}" alt="Logo" width="300" height="270">
                 </span>
                 <h4>Stanford Large Movie Review</h4>
             </div>
@@ -133,16 +107,20 @@
         <h2>More Models</h2>
         <h4>Explore Alternative Approaches</h4>
         <div class="row">
-          <div class="col-sm-6">
-            <span class="glyphicon glyphicon-book logo-small"></span>
-            <h4>Lexicon Based Approach</h4>
-            <p>The Long Standing Dictionary Based Approach</p>
-          </div>
-          <div class="col-sm-6">
-            <span class="glyphicon glyphicon-briefcase logo-small"></span>
-              <h4>Neural Bag of Words</h4>
-              <p>The First Steps Toward Machine Learning</p>
-          </div>
+            <div class="col-sm-6"> 
+                <a href="{{ url_for('nbow') }}">
+                    <span class="glyphicon glyphicon-briefcase logo-small"></span>
+                    <h4>Neural Bag of Words</h4>
+                </a>
+                <p>The First Steps Toward Machine Learning</p>
+              </div>
+              <div class="col-sm-6">
+                <a href="{{ url_for('cnn') }}">
+                    <span class="glyphicon glyphicon-briefcase logo-small"></span>
+                    <h4>Convolutional Neural Network</h4>
+                </a>
+                <p>A Novel Deep Learning Model for Sentiment Analysis</p>
+              </div>
         </div>
     </div>
 

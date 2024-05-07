@@ -39,9 +39,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">MODELS
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#lexicon">Lexicon</a></li>
-                  <li><a href="#nbow">NBoW</a></li>
-                  <li><a href="#Cnn">CNN</a></li> 
+                    <li><a href="{{ url_for('lexicon') }}">Lexicon</a></li>
+                    <li><a href="{{ url_for('nbow') }}">NBoW</a></li>
+                    <li><a href="{{ url_for('cnn') }}">CNN</a></li> 
                 </ul>
               </li>
               <li class="dropdown">
@@ -72,7 +72,8 @@
             <h4>Convolutional Neural Networks are a class of deep learning algorithms primarily used for image recognition but have proven effective for NLP tasks like sentiment analysis.</h4>
             <p>They utilize layers that apply convolutions on word embeddings (dense vector representations of words that capture their semantic meaning) to capture contextual patterns in text, allowing them to discern complex features such as the sentiment expressed in sentences or documents. 
                 By leveraging their hierarchical feature extraction capabilities, CNNs can identify varying levels of sentiment intensity, making them powerful tools for analyzing emotions in content like movie reviews and social media posts. 
-                This adaptability showcases the versatility of CNNs in handling different types of data beyond their original domain.</p>
+                This adaptability showcases the versatility of CNNs in handling different types of data beyond their original domain. 
+                A more in depth explanation of the application of CNNs in the field of NLP can be found <a href="https://dennybritz.com/posts/wildml/understanding-convolutional-neural-networks-for-nlp/">here</a>. </p>
             <br><a href="{{ url_for('sandbox') }}" class="btn btn-default btn-lg custom-button">Try it out!</a>
           </div>
           <div class="col-sm-5" style="display: flex; justify-content: center; align-items: center;">
@@ -115,13 +116,13 @@
             <h4><strong></strong>The following confusion matrices visualize the classification results for each dataset</h4>
             <div class="col-sm-6" style="justify-content: center; align-items: center;"> 
                 <span>
-                    <img src="{{ url_for('static', filename = 'imgs/FinanceCM.png') }}" alt="Logo" width="300" height="270">
+                    <img src="{{ url_for('static', filename = 'imgs/FinanceCMCNN.png') }}" alt="Logo" width="300" height="270">
                 </span>
                 <h4>Financial Phrasebank</h4>
             </div>
             <div class="col-sm-6" style="justify-content: center; align-items: center;">
                 <span>
-                    <img src="{{ url_for('static', filename = 'imgs/MovieCM.png') }}" alt="Logo" width="300" height="270">
+                    <img src="{{ url_for('static', filename = 'imgs/MovieCMCNN.png') }}" alt="Logo" width="300" height="270">
                 </span>
                 <h4>Stanford Large Movie Review</h4>
             </div>
@@ -141,9 +142,9 @@
             <p>The Long Standing Dictionary Based Approach</p>
           </div>
           <div class="col-sm-6">
-            <a href="{{ url_for('lexicon') }}">
+            <a href="{{ url_for('nbow') }}">
                 <span class="glyphicon glyphicon-briefcase logo-small"></span>
-                <h4>Lexicon Based Approach</h4>
+                <h4>Neural Bag of Words</h4>
             </a>
             <p>The First Steps Toward Machine Learning</p>
           </div>
